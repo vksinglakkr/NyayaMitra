@@ -627,27 +627,52 @@
 
   <div class="container-main w-full max-w-5xl glass-card rounded-3xl shadow-2xl overflow-hidden">
     
-    <div class="relative bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 p-6 pb-4 text-center header-glow">
+<div class="relative bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 p-6 pb-4 header-glow">
+
+  <!-- Header Row: Logo + Title -->
+  <div class="flex items-start justify-between">
+
+    <!-- Haryana Govt Logo -->
+    <div class="flex items-start">
+      <img
+        src="Images/haryana-logo.jpg"
+        alt="Government of Haryana"
+        class="h-12 md:h-14 w-auto"
+      />
+    </div>
+
+    <!-- Center Title -->
+    <div class="flex-1 text-center">
       <div class="floating">
         <h1 class="text-5xl md:text-6xl font-black gradient-text mb-2 playfair tracking-tight">
           NyayaMitra
         </h1>
-        <p class="text-2xl md:text-3xl font-bold text-orange-600 mb-1" style="font-family: 'Noto Sans Devanagari', sans-serif;">
+        <p class="text-2xl md:text-3xl font-bold text-orange-600 mb-1"
+           style="font-family: 'Noto Sans Devanagari', sans-serif;">
           न्यायमित्र
         </p>
       </div>
+
       <p class="text-sm text-gray-600 font-semibold mb-3 tracking-wide">
-        Your AI Assistant for New Criminal Laws
+        AI Assistant for New Criminal Laws
       </p>
-      
-      <div class="w-full max-w-2xl mx-auto px-4">
-        <div class="bg-white rounded-2xl border-3 border-orange-400 py-2 px-4 shadow-xl">
-          <h2 class="text-xs sm:text-sm font-black text-center bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent leading-tight">
-            Bharatiya Nyaya Sanhita • Bharatiya Nagarik Suraksha Sanhita • Bharatiya Sakshya Adhiniyam
-          </h2>
-        </div>
-      </div>
     </div>
+
+    <!-- Right spacer (keeps title perfectly centered) -->
+    <div class="w-12 md:w-14"></div>
+
+  </div>
+
+  <!-- Laws Strip -->
+  <div class="w-full max-w-2xl mx-auto px-4 mt-2">
+    <div class="bg-white rounded-2xl border-3 border-orange-400 py-2 px-4 shadow-xl">
+      <h2 class="text-xs sm:text-sm font-black text-center bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent leading-tight">
+        Bharatiya Nyaya Sanhita • Bharatiya Nagarik Suraksha Sanhita • Bharatiya Sakshya Adhiniyam
+      </h2>
+    </div>
+  </div>
+
+</div>
 
     <div class="p-2">
       
@@ -656,8 +681,8 @@
         <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-2xl p-4" id="profileSelector">
           <label class="block text-base font-bold text-gray-800 mb-3 flex items-center gap-2">
         <span class="bg-blue-100 text-blue-700 rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">👤</span>
-
             Who are you?
+            <span class="text-xs font-normal text-gray-600"></span>
           </label>
           
           <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -985,6 +1010,7 @@
 
   <script>
     console.log('🚀 NyayaMitra initializing...');
+    let isProfileManuallyChanged = false;
     
     // Update Last Modified DateTime - AUTOMATIC FROM FILE
     function updateLastModified() {
@@ -1043,20 +1069,26 @@
     } else {
       updateLastModified();
     }
-    
-    // Set default profile on page load
-    function setDefaultProfile() {
-      // Default to General Citizen (most common user type)
-      selectMainUser('citizen');
-      console.log('✅ Default profile set: General Citizen');
-    }
-    
-    // Initialize default profile when page loads
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', setDefaultProfile);
-    } else {
-      setDefaultProfile();
-    }
+
+document.addEventListener('DOMContentLoaded', function () {
+
+  // Show default hint
+  const hintEl = document.getElementById('profileHint');
+  if (hintEl) {
+    hintEl.textContent = 'Default profile: General Citizen (you can change it)';
+  }
+
+  // Set default selected user silently
+  selectedUser = 'citizen';
+
+  // Highlight default card visually
+  const defaultCard = document.getElementById('userCitizenMain');
+  if (defaultCard) {
+    defaultCard.classList.add('selected');
+  }
+
+  console.log('✅ Default profile initialized silently: General Citizen');
+});
     
     const WEBHOOK_URL = 'https://n8n-workflow-test.duckdns.org/webhook/chatbot';
     
@@ -2308,40 +2340,43 @@ function selectQueryType(type) {
     window.selectQueryType = selectQueryType;
 
    // Select main user profile (always visible)
+// Select main user profile (USER ACTION ONLY)
 function selectMainUser(userType) {
   selectedUser = userType;
-  
-  // Update main profile cards
+
+  // ✅ Mark as manually changed
+  isProfileManuallyChanged = true;
+
+  // Update profile cards
   document.querySelectorAll('.user-card-small')
     .forEach(el => el.classList.remove('selected'));
-  
+
   const mainCard = document.getElementById(
     'user' + userType.charAt(0).toUpperCase() + userType.slice(1) + 'Main'
   );
   if (mainCard) mainCard.classList.add('selected');
-  
-  // Update hint text
-  const userNames = {
-    police: 'Police Officer - Get practical, procedural answers',
-    legal: 'Legal Professional - Get detailed technical analysis',
-    student: 'Student/Researcher - Get educational explanations',
-    citizen: 'General Citizen - Get simple, practical guidance'
+
+  // ✅ Update hint ONLY for manual selection
+  const hintEl = document.getElementById('profileHint');
+  const shortNames = {
+    police: 'Police Officer',
+    legal: 'Legal Professional',
+    student: 'Student / Researcher',
+    citizen: 'General Citizen'
   };
-  
-   /* ================================
-     NEW: Progressive Collapse Logic
+
+  if (hintEl) {
+    hintEl.textContent = '✓ Selected: ' + (shortNames[userType] || 'General Citizen');
+  }
+
+  /* ================================
+     Progressive Collapse Logic
+     (UNCHANGED – USER FLOW)
      ================================ */
   setTimeout(() => {
     const profileBox = document.getElementById('profileSelector');
     const summaryBox = document.getElementById('profileSummary');
     const summaryText = document.getElementById('profileSummaryText');
-
-    const shortNames = {
-      police: 'Police Officer',
-      legal: 'Legal Professional',
-      student: 'Student / Researcher',
-      citizen: 'General Citizen'
-    };
 
     if (profileBox && summaryBox && summaryText) {
       profileBox.classList.add('hidden');
@@ -2349,21 +2384,21 @@ function selectMainUser(userType) {
       summaryText.textContent = shortNames[userType] || 'General Citizen';
     }
 
-    // Auto-scroll to next section for smooth guided flow
+    // Scroll to next section
     const nextSection = document.querySelector('.query-type-selector');
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, 300);
 
-  // If ready-made questions section is visible, load topics automatically
+  // Load ready-made topics if visible
   const readyDiv = document.getElementById('readyQuestionDiv');
   if (readyDiv && readyDiv.style.display !== 'none') {
     loadTopics(userType);
     document.getElementById('topicSection').style.display = 'block';
   }
-  
-  console.log('✅ Main user profile selected:', userType);
+
+  console.log('✅ User manually selected profile:', userType);
 }
 
     
