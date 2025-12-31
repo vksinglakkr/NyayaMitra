@@ -42,7 +42,7 @@
     async function init() {
       const statusDiv = document.getElementById('connectionStatus');
       try {
-        const response = await fetch('legal_data.json');
+        const response = await fetch('legal_data1.json');
         if (!response.ok) throw new Error();
         masterData = await response.json();
         
