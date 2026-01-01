@@ -374,11 +374,51 @@
 
       tbody.appendChild(row);
     });
-
-    lucide.createIcons();
+      document.getElementById('searchStats').innerHTML = `
+        <i data-lucide="book" class="w-4 h-4 inline"></i> 
+        Showing ${currentResults.length} ${currentFilter === 'ALL' ? '' : currentFilter} section${currentResults.length === 1 ? '' : 's'}
+        ${sortColumn ? `<span class="ml-2 text-xs">• Sorted by: ${sortColumn} ${sortDirection === 'asc' ? '↑' : '↓'}</span>` : ''}
+      `;
+      lucide.createIcons();
   }
 
   window.onload = loadDatabase;
+
+    function updateSortIndicators() {
+      // Reset all headers
+      const headers = document.querySelectorAll('thead th');
+      headers.forEach(th => {
+        const icon = th.querySelector('i');
+        if (icon) {
+          icon.setAttribute('data-lucide', 'arrow-up-down');
+        }
+      });
+      
+      // Update current sort column icon
+      const columnMap = {
+        'law': 0,
+        'section': 1,
+        'title': 2,
+        'oldSection': 3
+      };
+      
+      const currentHeaderIndex = columnMap[sortColumn];
+      if (currentHeaderIndex !== undefined) {
+        const currentHeader = headers[currentHeaderIndex];
+        const icon = currentHeader.querySelector('i');
+        if (icon) {
+          if (sortDirection === 'asc') {
+            icon.setAttribute('data-lucide', 'arrow-up');
+            currentHeader.classList.add('bg-blue-50');
+          } else {
+            icon.setAttribute('data-lucide', 'arrow-down');
+            currentHeader.classList.add('bg-blue-50');
+          }
+        }
+      }
+      
+      lucide.createIcons();
+    }
 </script>
 
 </body>
