@@ -11,12 +11,14 @@
       background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
       font-family: 'Inter', sans-serif;
     }
-    .section-row:hover {
-      background-color: #dbeafe;
-    }
-    /* Larger Font Classes for the Data Part */
+    .section-row:hover { background-color: #dbeafe; }
+    /* Font size improvements as requested */
     .act-font { font-size: 1.25rem; font-weight: 900; }
     .section-font { font-size: 1.75rem; font-weight: 700; font-family: monospace; }
+    /* Act Badges */
+    .law-badge-BNS { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+    .law-badge-BNSS { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+    .law-badge-BSA { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
   </style>
 </head>
 <body class="min-h-screen p-6">
@@ -28,70 +30,54 @@
           <i data-lucide="book" class="w-6 h-6"></i>
           <div>
             <h2 class="text-lg font-bold">Understanding India's New Criminal Laws 2024</h2>
-            <p class="text-sm text-white/80">Search 70 sections across BNSS, BNS, BSA</p>
+            <p class="text-sm text-white/80">Search provisions across BNSS, BNS, BSA</p>
           </div>
         </div>
-        <div class="flex gap-2">
-          <button onclick="toggleGuide()" id="guideBtn" class="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition text-sm font-medium">
-            <i data-lucide="info" class="w-4 h-4"></i>
-            <span id="guideBtnText">Show Guide</span>
-            <span id="guideArrow" class="text-lg">▼</span>
-          </button>
-        </div>
+        <button onclick="toggleGuide()" class="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition text-sm font-medium">
+          <i data-lucide="info" class="w-4 h-4"></i> Guide <span id="guideArrow">▼</span>
+        </button>
       </div>
 
       <div class="grid grid-cols-3 gap-3 mt-3">
-        <div class="bg-purple-700/50 rounded-lg px-3 py-2 text-center">
-          <div class="font-bold text-sm mb-1">BNSS (Procedure)</div>
-          <div class="text-xs text-purple-100">FIR, Arrest, Bail, Investigation</div>
-        </div>
-        <div class="bg-green-700/50 rounded-lg px-3 py-2 text-center">
-          <div class="font-bold text-sm mb-1">BNS (Crimes)</div>
-          <div class="text-xs text-green-100">Murder, Theft, Fraud, Punishment</div>
-        </div>
-        <div class="bg-blue-700/50 rounded-lg px-3 py-2 text-center">
-          <div class="font-bold text-sm mb-1">BSA (Evidence)</div>
-          <div class="text-xs text-blue-100">Electronic Records, Proof, Witness</div>
-        </div>
+        <div class="bg-purple-700/50 rounded-lg px-3 py-2 text-center text-xs font-bold">BNSS (Procedure)</div>
+        <div class="bg-green-700/50 rounded-lg px-3 py-2 text-center text-xs font-bold">BNS (Crimes)</div>
+        <div class="bg-blue-700/50 rounded-lg px-3 py-2 text-center text-xs font-bold">BSA (Evidence)</div>
       </div>
       
+      <div id="detailedGuide" class="hidden mt-4 pt-4 border-t border-white/20 text-xs">
+        Search by keywords like "Murder", "FIR", or specific section numbers to find links to India Code.
       </div>
+    </div>
 
     <div class="bg-white rounded-2xl shadow-2xl p-6 mb-6">
       <div class="flex items-center gap-3 mb-4">
         <i data-lucide="database" class="w-8 h-8 text-blue-600"></i>
-        <div>
-          <h1 class="text-2xl font-bold">Legal Section Search</h1>
-          <p class="text-sm text-gray-600">Dynamic database from legal_data.json</p>
-        </div>
+        <h1 class="text-2xl font-bold">Legal Section Search</h1>
       </div>
 
-      <div class="flex gap-2 mb-4 flex-wrap">
+      <div class="flex gap-2 mb-4 flex-wrap" id="tabContainer">
         <button onclick="filterByLaw('ALL')" id="tab-ALL" class="tab-btn px-4 py-2 rounded-lg font-semibold transition bg-indigo-600 text-white">ALL</button>
-        <button onclick="filterByLaw('BNSS')" id="tab-BNSS" class="tab-btn px-4 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-gray-200">BNSS</button>
-        <button onclick="filterByLaw('BNS')" id="tab-BNS" class="tab-btn px-4 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-gray-200">BNS</button>
-        <button onclick="filterByLaw('BSA')" id="tab-BSA" class="tab-btn px-4 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-gray-200">BSA</button>
+        <button onclick="filterByLaw('BNSS')" id="tab-BNSS" class="tab-btn px-4 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700">BNSS</button>
+        <button onclick="filterByLaw('BNS')" id="tab-BNS" class="tab-btn px-4 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700">BNS</button>
+        <button onclick="filterByLaw('BSA')" id="tab-BSA" class="tab-btn px-4 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700">BSA</button>
       </div>
 
       <div class="relative mb-4">
-        <div class="flex items-center gap-2 border-2 border-gray-300 rounded-lg focus-within:border-blue-500 bg-white">
-          <i data-lucide="search" class="w-5 h-5 text-gray-400 ml-3"></i>
-          <input type="text" id="searchInput" placeholder="Search by section or keyword..."
-            class="flex-1 px-2 py-3 outline-none" oninput="performSearch()" />
-        </div>
+        <i data-lucide="search" class="absolute left-3 top-3.5 text-gray-400 w-5 h-5"></i>
+        <input type="text" id="searchInput" placeholder="Search by section or keyword..."
+          class="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 outline-none" oninput="performSearch()" />
       </div>
 
       <div class="overflow-x-auto border border-gray-200 rounded-lg">
-        <table class="w-full">
+        <table class="w-full text-left border-collapse">
           <thead class="bg-gray-50 border-b-2 border-gray-200">
-            <tr>
-              <th class="px-4 py-3 text-left text-sm font-bold text-gray-700">ACT</th>
-              <th class="px-4 py-3 text-left text-sm font-bold text-gray-700">SECTION</th>
-              <th class="px-4 py-3 text-left text-sm font-bold text-gray-700">PROVISION TITLE</th>
-              <th class="px-4 py-3 text-left text-sm font-bold text-gray-700">ACTION</th>
+            <tr class="text-xs font-bold text-gray-500 uppercase">
+              <th class="px-6 py-4">ACT</th>
+              <th class="px-6 py-4">SECTION</th>
+              <th class="px-6 py-4">PROVISION TITLE</th>
             </tr>
           </thead>
-          <tbody id="resultsTable">
+          <tbody id="resultsTable" class="divide-y divide-gray-100">
             </tbody>
         </table>
       </div>
@@ -99,64 +85,73 @@
   </div>
 
   <script>
-    let DATABASE = []; // Data will be loaded from JSON
-    let currentResults = [];
+    let MASTER_DATA = []; 
+    let activeFilter = 'ALL';
 
-    // 1. Fetch data from JSON
+    // 1. Fetch data from JSON correctly
     async function loadData() {
       try {
         const response = await fetch('legal_data.json');
-        DATABASE = await response.json();
-        currentResults = [...DATABASE];
-        renderResults();
-      } catch (e) { console.error("Could not load JSON", e); }
+        MASTER_DATA = await response.json();
+        renderTable(MASTER_DATA);
+      } catch (e) {
+        console.error("Data Load Error:", e);
+        document.getElementById('resultsTable').innerHTML = '<tr><td colspan="3" class="p-10 text-center text-red-500">Error: legal_data.json not found.</td></tr>';
+      }
     }
 
-    // 2. MODIFIED RENDER PART
-    function renderResults() {
+    // 2. Render Table with requested font sizes and clean numbers
+    function renderTable(data) {
       const tbody = document.getElementById('resultsTable');
-      tbody.innerHTML = '';
-      
-      currentResults.forEach(item => {
-        // Cleaning the section text to show only number
-        const cleanSection = item.Section.replace(/Section|section/gi, '').trim();
-        
-        const row = document.createElement('tr');
-        row.className = 'section-row border-b border-gray-100 cursor-pointer';
-        row.onclick = () => window.open(item.Link, '_blank');
-        
-        row.innerHTML = `
-          <td class="px-4 py-4">
-            <span class="act-font text-indigo-700">${item.Name}</span>
-          </td>
-          <td class="px-4 py-4">
-            <span class="section-font text-gray-900">${cleanSection}</span>
-          </td>
-          <td class="px-4 py-4 text-sm font-medium text-gray-800">
-            ${item.Title}
-          </td>
-          <td class="px-4 py-4">
-            <i data-lucide="external-link" class="w-4 h-4 text-blue-500"></i>
-          </td>
+      tbody.innerHTML = data.map(item => {
+        // Remove "Section" text and show only numbers
+        const cleanNum = item.Section.replace(/Section|section/gi, '').trim();
+        return `
+          <tr class="section-row cursor-pointer" onclick="window.open('${item.Link}', '_blank')">
+            <td class="px-6 py-5">
+              <span class="act-font px-3 py-1 rounded-md law-badge-${item.Name}">${item.Name}</span>
+            </td>
+            <td class="px-6 py-5 text-gray-900 section-font">${cleanNum}</td>
+            <td class="px-6 py-5 text-sm font-semibold text-indigo-700 hover:underline">
+              ${item.Title}
+            </td>
+          </tr>
         `;
-        tbody.appendChild(row);
-      });
+      }).join('');
       lucide.createIcons();
     }
 
-    // Filter and Search logic (Simplified to focus on your request)
+    // 3. Perfect Filter Logic
+    function filterByLaw(law) {
+      activeFilter = law;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.replace('bg-indigo-600', 'bg-gray-100');
+        btn.classList.replace('text-white', 'text-gray-700');
+      });
+      const activeTab = document.getElementById(`tab-${law}`);
+      activeTab.classList.replace('bg-gray-100', 'bg-indigo-600');
+      activeTab.classList.add('text-white');
+      performSearch();
+    }
+
+    // 4. Perfect Search Logic
     function performSearch() {
       const q = document.getElementById('searchInput').value.toLowerCase();
-      currentResults = DATABASE.filter(item => 
-        item.Title.toLowerCase().includes(q) || 
-        item.Section.toLowerCase().includes(q) || 
-        item.Name.toLowerCase().includes(q)
-      );
-      renderResults();
+      const filtered = MASTER_DATA.filter(item => {
+        const matchesLaw = (activeFilter === 'ALL' || item.Name === activeFilter);
+        const matchesText = item.Title.toLowerCase().includes(q) || item.Section.toLowerCase().includes(q);
+        return matchesLaw && matchesText;
+      });
+      renderTable(filtered);
+    }
+
+    function toggleGuide() {
+      const g = document.getElementById('detailedGuide');
+      g.classList.toggle('hidden');
+      document.getElementById('guideArrow').textContent = g.classList.contains('hidden') ? '▼' : '▲';
     }
 
     window.onload = loadData;
-    // [Keeping your other original functions like toggleGuide etc.]
   </script>
 </body>
 </html>
