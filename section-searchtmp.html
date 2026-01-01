@@ -371,9 +371,14 @@
         <td class="px-6 py-4 text-gray-800">${item.Title}</td>
         <td class="px-6 py-4 text-blue-600 font-semibold text-sm">OPEN</td>
       `;
-
-      tbody.appendChild(row);
-    });
+        tbody.appendChild(row);
+      });
+      
+      // Update sort indicators
+      updateSortIndicators();
+      
+      lucide.createIcons();
+      
       document.getElementById('searchStats').innerHTML = `
         <i data-lucide="book" class="w-4 h-4 inline"></i> 
         Showing ${currentResults.length} ${currentFilter === 'ALL' ? '' : currentFilter} section${currentResults.length === 1 ? '' : 's'}
