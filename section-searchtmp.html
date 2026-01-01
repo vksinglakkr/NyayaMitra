@@ -294,7 +294,21 @@
     const query = document.getElementById('searchInput').value.toLowerCase();
     renderResults(query);
   }
-
+    function toggleGuide() {
+      const guide = document.getElementById('detailedGuide');
+      const btnText = document.getElementById('guideBtnText');
+      const arrow = document.getElementById('guideArrow');
+      
+      if (guide.classList.contains('hidden')) {
+        guide.classList.remove('hidden');
+        btnText.textContent = 'Hide Guide';
+        arrow.textContent = '▲';
+      } else {
+        guide.classList.add('hidden');
+        btnText.textContent = 'Show Guide';
+        arrow.textContent = '▼';
+      }
+    }
   function renderResults(query = '') {
     const tbody = document.getElementById('resultsTable');
     tbody.innerHTML = '';
