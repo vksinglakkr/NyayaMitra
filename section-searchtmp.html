@@ -379,8 +379,7 @@
     }
 
     currentResults.forEach(item => {
-      const sectionNo = item.Section.replace(/section\s*/gi,'').trim();
-
+      const sectionNo = item.Section.replace(/section\s*/gi,'').trim().padStart(2, '0');
       const row = document.createElement('tr');
       row.className = 'section-row cursor-pointer';
       row.onclick = () => window.open(item.Link, '_blank');
