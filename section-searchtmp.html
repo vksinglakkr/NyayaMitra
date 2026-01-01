@@ -384,11 +384,16 @@
       row.className = 'section-row cursor-pointer';
       row.onclick = () => window.open(item.Link, '_blank');
 
-      row.innerHTML = `
-        <td class="px-6 py-4 font-bold text-indigo-700">${item.Name}</td>
-        <td class="px-6 py-4 font-mono text-lg">${sectionNo}</td>
-        <td class="px-6 py-4 text-blue-600 font-semibold text-sm">${item.Title}</td>
-      `;
+      // Determine color based on law type
+const lawColor = item.Name === 'BNSS' ? 'text-purple-700' : 
+                 item.Name === 'BNS' ? 'text-green-700' : 
+                 'text-blue-700'; // BSA
+
+row.innerHTML = `
+  <td class="px-6 py-4 font-bold ${lawColor}">${item.Name}</td>
+  <td class="px-6 py-4 font-mono text-lg">${sectionNo}</td>
+  <td class="px-6 py-4 text-gray-800">${item.Title}</td>
+`;
       tbody.appendChild(row);
     });
     
