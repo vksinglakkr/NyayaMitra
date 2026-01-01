@@ -12,12 +12,11 @@
       font-family: 'Inter', sans-serif;
     }
     .section-row:hover {
-      background-color: #f1f5f9;
+      background-color: #dbeafe;
     }
-    /* Custom Act Badges */
-    .law-badge-BNS { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
-    .law-badge-BNSS { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
-    .law-badge-BSA { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+    /* Larger Font Classes for the Data Part */
+    .act-font { font-size: 1.25rem; font-weight: 900; }
+    .section-font { font-size: 1.75rem; font-weight: 700; font-family: monospace; }
   </style>
 </head>
 <body class="min-h-screen p-6">
@@ -36,96 +35,128 @@
           <button onclick="toggleGuide()" id="guideBtn" class="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition text-sm font-medium">
             <i data-lucide="info" class="w-4 h-4"></i>
             <span id="guideBtnText">Show Guide</span>
+            <span id="guideArrow" class="text-lg">▼</span>
           </button>
         </div>
       </div>
 
       <div class="grid grid-cols-3 gap-3 mt-3">
         <div class="bg-purple-700/50 rounded-lg px-3 py-2 text-center">
-          <div class="font-bold text-sm mb-1">BNSS</div>
-          <div class="text-[10px] text-purple-100 uppercase tracking-wide">Procedure</div>
+          <div class="font-bold text-sm mb-1">BNSS (Procedure)</div>
+          <div class="text-xs text-purple-100">FIR, Arrest, Bail, Investigation</div>
         </div>
         <div class="bg-green-700/50 rounded-lg px-3 py-2 text-center">
-          <div class="font-bold text-sm mb-1">BNS</div>
-          <div class="text-[10px] text-green-100 uppercase tracking-wide">Crimes</div>
+          <div class="font-bold text-sm mb-1">BNS (Crimes)</div>
+          <div class="text-xs text-green-100">Murder, Theft, Fraud, Punishment</div>
         </div>
         <div class="bg-blue-700/50 rounded-lg px-3 py-2 text-center">
-          <div class="font-bold text-sm mb-1">BSA</div>
-          <div class="text-[10px] text-blue-100 uppercase tracking-wide">Evidence</div>
+          <div class="font-bold text-sm mb-1">BSA (Evidence)</div>
+          <div class="text-xs text-blue-100">Electronic Records, Proof, Witness</div>
         </div>
       </div>
-    </div>
-
-    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-6">
-      <div class="relative">
-        <i data-lucide="search" class="absolute left-3 top-3 text-slate-400 w-5 h-5"></i>
-        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Search by section or keyword..." 
-          class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
+      
       </div>
-    </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-      <table class="w-full text-left border-collapse">
-        <thead>
-          <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
-            <th class="px-6 py-4">ACT</th>
-            <th class="px-6 py-4">SECTION</th>
-            <th class="px-6 py-4">PROVISION TITLE</th>
-          </tr>
-        </thead>
-        <tbody id="resultsBody" class="divide-y divide-slate-100">
-          </tbody>
-      </table>
+    <div class="bg-white rounded-2xl shadow-2xl p-6 mb-6">
+      <div class="flex items-center gap-3 mb-4">
+        <i data-lucide="database" class="w-8 h-8 text-blue-600"></i>
+        <div>
+          <h1 class="text-2xl font-bold">Legal Section Search</h1>
+          <p class="text-sm text-gray-600">Dynamic database from legal_data.json</p>
+        </div>
+      </div>
+
+      <div class="flex gap-2 mb-4 flex-wrap">
+        <button onclick="filterByLaw('ALL')" id="tab-ALL" class="tab-btn px-4 py-2 rounded-lg font-semibold transition bg-indigo-600 text-white">ALL</button>
+        <button onclick="filterByLaw('BNSS')" id="tab-BNSS" class="tab-btn px-4 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-gray-200">BNSS</button>
+        <button onclick="filterByLaw('BNS')" id="tab-BNS" class="tab-btn px-4 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-gray-200">BNS</button>
+        <button onclick="filterByLaw('BSA')" id="tab-BSA" class="tab-btn px-4 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-gray-200">BSA</button>
+      </div>
+
+      <div class="relative mb-4">
+        <div class="flex items-center gap-2 border-2 border-gray-300 rounded-lg focus-within:border-blue-500 bg-white">
+          <i data-lucide="search" class="w-5 h-5 text-gray-400 ml-3"></i>
+          <input type="text" id="searchInput" placeholder="Search by section or keyword..."
+            class="flex-1 px-2 py-3 outline-none" oninput="performSearch()" />
+        </div>
+      </div>
+
+      <div class="overflow-x-auto border border-gray-200 rounded-lg">
+        <table class="w-full">
+          <thead class="bg-gray-50 border-b-2 border-gray-200">
+            <tr>
+              <th class="px-4 py-3 text-left text-sm font-bold text-gray-700">ACT</th>
+              <th class="px-4 py-3 text-left text-sm font-bold text-gray-700">SECTION</th>
+              <th class="px-4 py-3 text-left text-sm font-bold text-gray-700">PROVISION TITLE</th>
+              <th class="px-4 py-3 text-left text-sm font-bold text-gray-700">ACTION</th>
+            </tr>
+          </thead>
+          <tbody id="resultsTable">
+            </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
   <script>
-    let legalData = [];
+    let DATABASE = []; // Data will be loaded from JSON
+    let currentResults = [];
 
+    // 1. Fetch data from JSON
     async function loadData() {
       try {
         const response = await fetch('legal_data.json');
-        legalData = await response.json();
-        renderTable(legalData);
-      } catch (error) {
-        console.error("Data Load Error:", error);
-      }
+        DATABASE = await response.json();
+        currentResults = [...DATABASE];
+        renderResults();
+      } catch (e) { console.error("Could not load JSON", e); }
     }
 
-    function renderTable(data) {
-      const tbody = document.getElementById('resultsBody');
-      tbody.innerHTML = data.map(item => {
-        // CLEANUP: Remove the word "Section" and "section" to show only the number
-        const sectionNum = item.Section.replace(/Section|section/gi, '').trim();
+    // 2. MODIFIED RENDER PART
+    function renderResults() {
+      const tbody = document.getElementById('resultsTable');
+      tbody.innerHTML = '';
+      
+      currentResults.forEach(item => {
+        // Cleaning the section text to show only number
+        const cleanSection = item.Section.replace(/Section|section/gi, '').trim();
         
-        return `
-          <tr class="hover:bg-slate-50/80 transition-colors cursor-pointer" onclick="window.open('${item.Link}', '_blank')">
-            <td class="px-6 py-5">
-              <span class="px-3 py-1.5 rounded text-lg font-black law-badge-${item.Name}">${item.Name}</span>
-            </td>
-            <td class="px-6 py-5 font-mono text-2xl font-bold text-slate-800">${sectionNum}</td>
-            <td class="px-6 py-5">
-              <div class="text-indigo-600 font-semibold hover:underline decoration-indigo-200 underline-offset-4">
-                ${item.Title}
-              </div>
-            </td>
-          </tr>
+        const row = document.createElement('tr');
+        row.className = 'section-row border-b border-gray-100 cursor-pointer';
+        row.onclick = () => window.open(item.Link, '_blank');
+        
+        row.innerHTML = `
+          <td class="px-4 py-4">
+            <span class="act-font text-indigo-700">${item.Name}</span>
+          </td>
+          <td class="px-4 py-4">
+            <span class="section-font text-gray-900">${cleanSection}</span>
+          </td>
+          <td class="px-4 py-4 text-sm font-medium text-gray-800">
+            ${item.Title}
+          </td>
+          <td class="px-4 py-4">
+            <i data-lucide="external-link" class="w-4 h-4 text-blue-500"></i>
+          </td>
         `;
-      }).join('');
+        tbody.appendChild(row);
+      });
       lucide.createIcons();
     }
 
-    function handleSearch() {
+    // Filter and Search logic (Simplified to focus on your request)
+    function performSearch() {
       const q = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = legalData.filter(item => 
+      currentResults = DATABASE.filter(item => 
+        item.Title.toLowerCase().includes(q) || 
         item.Section.toLowerCase().includes(q) || 
-        item.Title.toLowerCase().includes(q) ||
         item.Name.toLowerCase().includes(q)
       );
-      renderTable(filtered);
+      renderResults();
     }
 
     window.onload = loadData;
+    // [Keeping your other original functions like toggleGuide etc.]
   </script>
 </body>
 </html>
