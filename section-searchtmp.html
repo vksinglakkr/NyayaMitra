@@ -388,8 +388,7 @@
       row.innerHTML = `
         <td class="px-6 py-4 font-bold text-indigo-700">${item.Name}</td>
         <td class="px-6 py-4 font-mono text-lg">${sectionNo}</td>
-        <td class="px-6 py-4 text-gray-800">${item.Title}</td>
-        <td class="px-6 py-4 text-blue-600 font-semibold text-sm">OPEN</td>
+        <td class="px-6 py-4 text-blue-600 font-semibold text-sm">${item.Title}</td>
       `;
       tbody.appendChild(row);
     });
@@ -439,8 +438,7 @@
       const columnMap = {
         'law': 0,
         'section': 1,
-        'title': 2,
-        'oldSection': 3
+        'title': 2
       };
       
       const currentHeaderIndex = columnMap[sortColumn];
