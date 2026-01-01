@@ -3,165 +3,111 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Legal Section Search - India Criminal Laws 2024</title>
+  <title>Legal Intelligence - Section Search</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
-    body {
-      background: #f8fafc;
-      font-family: 'Outfit', sans-serif;
-    }
-    .glass-header {
-      background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
-      position: relative;
-      overflow: hidden;
-    }
-    .glass-header::after {
-      content: "";
-      position: absolute;
-      top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .section-row { transition: all 0.2s; }
-    .section-row:hover { background-color: #f1f5f9; transform: scale(1.002); }
+    body { background: #f8fafc; font-family: 'Outfit', sans-serif; }
+    .law-badge-BNS { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+    .law-badge-BNSS { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+    .law-badge-BSA { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
   </style>
 </head>
-<body class="min-h-screen">
-
-  <header class="glass-header text-white pb-20 pt-12 px-6 shadow-2xl">
-    <div class="max-w-5xl mx-auto relative z-10">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div>
-          <div class="inline-flex items-center gap-2 bg-blue-500/30 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-4 border border-blue-400/30">
-            <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-            </span>
-            Official 2024 Legal Database
+<body class="p-6">
+  <div class="max-w-5xl mx-auto">
+    
+    <div class="bg-slate-900 rounded-3xl shadow-2xl p-8 mb-8 text-white relative overflow-hidden">
+      <div class="relative z-10">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="p-2 bg-indigo-500 rounded-lg">
+            <i data-lucide="scale" class="w-8 h-8 text-white"></i>
           </div>
-          <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-2">Bharat Legal Search <span class="text-blue-400">2.0</span></h1>
-          <p class="text-blue-100/80 text-lg max-w-2xl">Instant cross-reference tool for BNS, BNSS, and BSA. Access new section mappings and legal definitions in seconds.</p>
+          <h1 class="text-3xl font-bold tracking-tight">Bharat Nyaya Portal</h1>
         </div>
-        <div class="flex gap-4">
-            <div class="text-center bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 min-w-[100px]">
-                <div class="text-2xl font-bold" id="stat-total">70</div>
-                <div class="text-[10px] uppercase tracking-wider text-blue-200">Total Sections</div>
-            </div>
-            <button onclick="toggleGuide()" class="flex items-center gap-2 px-6 py-3 bg-white text-indigo-900 hover:bg-blue-50 rounded-2xl transition font-bold shadow-lg">
-                <i data-lucide="help-circle" class="w-5 h-5"></i> Guide
-            </button>
+        <p class="text-slate-400 text-lg max-w-2xl mb-8">Professional Search Interface for BNS, BNSS, and BSA Provisions.</p>
+        
+        <div class="relative">
+          <i data-lucide="search" class="absolute left-4 top-4 text-slate-500 w-6 h-6"></i>
+          <input type="text" id="searchInput" oninput="handleSearch()" 
+            placeholder="Search by section number or provision title..." 
+            class="w-full pl-14 pr-6 py-4 bg-slate-800 border border-slate-700 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none text-white text-lg transition-all placeholder:text-slate-500">
         </div>
       </div>
     </div>
-  </header>
 
-  <main class="max-w-5xl mx-auto -mt-12 px-6 pb-20">
-    <div class="bg-white rounded-3xl shadow-xl p-6 md:p-8 border border-gray-100">
-      
-      <div class="flex gap-2 mb-8 overflow-x-auto pb-2 no-scrollbar">
-        <button onclick="filterByLaw('ALL')" id="tab-ALL" class="tab-btn px-6 py-2.5 rounded-xl font-bold transition whitespace-nowrap bg-indigo-600 text-white shadow-md">All Laws</button>
-        <button onclick="filterByLaw('BNS')" id="tab-BNS" class="tab-btn px-6 py-2.5 rounded-xl font-bold transition whitespace-nowrap bg-gray-100 text-gray-600 hover:bg-gray-200">BNS (Crimes)</button>
-        <button onclick="filterByLaw('BNSS')" id="tab-BNSS" class="tab-btn px-6 py-2.5 rounded-xl font-bold transition whitespace-nowrap bg-gray-100 text-gray-600 hover:bg-gray-200">BNSS (Procedure)</button>
-        <button onclick="filterByLaw('BSA')" id="tab-BSA" class="tab-btn px-6 py-2.5 rounded-xl font-bold transition whitespace-nowrap bg-gray-100 text-gray-600 hover:bg-gray-200">BSA (Evidence)</button>
-      </div>
-
-      <div class="relative group">
-        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <i data-lucide="search" class="w-6 h-6 text-gray-400 group-focus-within:text-indigo-500 transition-colors"></i>
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-widest">
+            <th class="px-8 py-5">Act</th>
+            <th class="px-8 py-5 text-center">Section</th>
+            <th class="px-8 py-5">Provision Title</th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody" class="divide-y divide-slate-100">
+          </tbody>
+      </table>
+      <div id="loadingState" class="p-20 text-center text-slate-400">
+        <div class="animate-spin mb-4 inline-block">
+            <i data-lucide="refresh-cw" class="w-10 h-10"></i>
         </div>
-        <input type="text" id="searchInput" 
-          placeholder="Search by keywords (e.g., 'FIR', 'cyber fraud', 'arrest', '420')..."
-          class="block w-full pl-12 pr-4 py-5 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all text-lg shadow-inner"
-          oninput="performSearch()" />
-      </div>
-      
-      <div id="searchStats" class="mt-4 text-sm font-medium text-gray-500 flex items-center gap-2 ml-2"></div>
-
-      <div class="mt-8 overflow-hidden border border-gray-100 rounded-2xl shadow-sm">
-        <table class="w-full text-left">
-          <thead>
-            <tr class="bg-gray-50/80 border-b border-gray-100">
-              <th onclick="sortTable('law')" class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-indigo-600">Law</th>
-              <th onclick="sortTable('section')" class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-indigo-600">Section</th>
-              <th onclick="sortTable('title')" class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-indigo-600">Title</th>
-              <th onclick="sortTable('oldSection')" class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-indigo-600">Old Ref.</th>
-              <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Access</th>
-            </tr>
-          </thead>
-          <tbody id="resultsTable" class="divide-y divide-gray-50">
-            </tbody>
-        </table>
+        <p>Connecting to legal database...</p>
       </div>
     </div>
-  </main>
+  </div>
 
   <script>
-    // --- DATA PART: PASTE YOUR UPDATED DATA HERE ---
-    const DATABASE = [
-      {id: 1, law: "BNSS", section: "173", title: "Information in cognizable cases", keywords: "FIR, First Information Report, police complaint", searchTerms: "Section 173", oldSection: "CrPC 154", link: "#"},
-      {id: 45, law: "BNS", section: "103", title: "Punishment for murder", keywords: "murder, killing, death penalty", searchTerms: "Section 103", oldSection: "IPC 302", link: "#"},
-      {id: 36, law: "BSA", section: "63", title: "Admissibility of electronic records", keywords: "digital evidence, whatsapp, email", searchTerms: "Section 63", oldSection: "Evidence 65B", link: "#"},
-      // ... Add all your 70+ sections here
-    ];
+    let rawData = [];
 
-    let currentFilter = 'ALL';
-    let currentResults = [...DATABASE];
-    let sortColumn = 'section';
-    let sortDirection = 'asc';
+    // STEP 1: FETCH DATA FROM JSON FILE
+    async function loadLegalData() {
+      try {
+        const response = await fetch('legal_data.json');
+        rawData = await response.json();
+        document.getElementById('loadingState').classList.add('hidden');
+        renderTable(rawData);
+      } catch (err) {
+        console.error("Error loading JSON:", err);
+        document.getElementById('loadingState').innerHTML = `
+            <p class="text-red-500 font-bold">Error: legal_data.json not found.</p>
+            <p class="text-sm">Make sure your JSON file is in the same folder as this HTML.</p>
+        `;
+      }
+    }
 
-    // Core functions
-    function renderResults() {
-      const tbody = document.getElementById('resultsTable');
-      tbody.innerHTML = currentResults.map(s => `
-        <tr class="section-row cursor-pointer" onclick="window.open('${s.link}', '_blank')">
-          <td class="px-6 py-4"><span class="px-2 py-1 rounded-md text-[10px] font-black ${getLawBadge(s.law)}">${s.law}</span></td>
-          <td class="px-6 py-4 font-bold text-gray-900">§ ${s.section}</td>
-          <td class="px-6 py-4 text-sm text-gray-600 font-medium">${s.title}</td>
-          <td class="px-6 py-4 text-xs text-gray-400 italic">${s.oldSection}</td>
-          <td class="px-6 py-4"><i data-lucide="external-link" class="w-4 h-4 text-indigo-400"></i></td>
+    // STEP 2: RENDER TABLE WITH MODIFIED HEADINGS
+    function renderTable(data) {
+      const tbody = document.getElementById('resultsBody');
+      tbody.innerHTML = data.map(item => `
+        <tr class="hover:bg-slate-50/80 transition-all cursor-pointer group" onclick="window.open('${item.Link}', '_blank')">
+          <td class="px-8 py-5">
+            <span class="px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-wider law-badge-${item.Name}">${item.Name}</span>
+          </td>
+          <td class="px-8 py-5 font-mono font-bold text-slate-700 text-center">${item.Section}</td>
+          <td class="px-8 py-5">
+            <div class="flex items-center gap-2">
+                <span class="text-slate-700 font-semibold group-hover:text-indigo-600 transition-colors">${item.Title}</span>
+                <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-300 group-hover:text-indigo-400 opacity-0 group-hover:opacity-100 transition-all"></i>
+            </div>
+          </td>
         </tr>
       `).join('');
-      
-      document.getElementById('searchStats').innerHTML = `Found ${currentResults.length} relevant sections`;
       lucide.createIcons();
     }
 
-    function getLawBadge(law) {
-      if(law === 'BNS') return 'bg-emerald-100 text-emerald-700 border border-emerald-200';
-      if(law === 'BNSS') return 'bg-purple-100 text-purple-700 border border-purple-200';
-      return 'bg-blue-100 text-blue-700 border border-blue-200';
+    // STEP 3: SEARCH LOGIC
+    function handleSearch() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = rawData.filter(item => 
+        item.Section.toLowerCase().includes(query) || 
+        item.Title.toLowerCase().includes(query) ||
+        item.Name.toLowerCase().includes(query)
+      );
+      renderTable(filtered);
     }
 
-    function performSearch() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      let filtered = currentFilter === 'ALL' ? DATABASE : DATABASE.filter(s => s.law === currentFilter);
-      
-      if(q.length > 1) {
-        filtered = filtered.filter(s => 
-          s.title.toLowerCase().includes(q) || 
-          s.section.includes(q) || 
-          s.keywords.toLowerCase().includes(q)
-        );
-      }
-      currentResults = filtered;
-      renderResults();
-    }
-
-    function filterByLaw(law) {
-      currentFilter = law;
-      document.querySelectorAll('.tab-btn').forEach(b => b.className = 'tab-btn px-6 py-2.5 rounded-xl font-bold transition whitespace-nowrap bg-gray-100 text-gray-600');
-      const active = document.getElementById(`tab-${law}`);
-      active.className = `tab-btn px-6 py-2.5 rounded-xl font-bold transition whitespace-nowrap shadow-md text-white ${law==='ALL'?'bg-indigo-600':law==='BNS'?'bg-emerald-600':law==='BNSS'?'bg-purple-600':'bg-blue-600'}`;
-      performSearch();
-    }
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('stat-total').textContent = DATABASE.length;
-        renderResults();
-    });
+    window.onload = loadLegalData;
   </script>
 </body>
 </html>
