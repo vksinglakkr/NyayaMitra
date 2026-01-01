@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Legal Section Search - New Criminal Laws 2024</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+      font-family: 'Inter', sans-serif;
+    }
+    .section-row:hover {
+      background-color: #dbeafe;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-6">
+  <div class="max-w-5xl mx-auto">
+    
+    <!-- Compact Info Banner -->
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl shadow-lg p-4 mb-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <i data-lucide="book" class="w-6 h-6"></i>
+          <div>
+            <h2 class="text-lg font-bold">Understanding India's New Criminal Laws 2024</h2>
+            <p class="text-sm text-white/80">Search 70 sections across BNSS, BNS, BSA</p>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="toggleGuide()" id="guideBtn" class="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition text-sm font-medium">
+            <i data-lucide="info" class="w-4 h-4"></i>
+            <span id="guideBtnText">Show Guide</span>
+            <span id="guideArrow" class="text-lg">▼</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Summary Row - Always Visible -->
+      <div class="grid grid-cols-3 gap-3 mt-3">
+        <div class="bg-purple-700/50 rounded-lg px-3 py-2 text-center">
+          <div class="font-bold text-sm mb-1">BNSS (Procedure)</div>
+          <div class="text-xs text-purple-100">FIR, Arrest, Bail, Investigation</div>
+        </div>
+        <div class="bg-green-700/50 rounded-lg px-3 py-2 text-center">
+          <div class="font-bold text-sm mb-1">BNS (Crimes)</div>
+          <div class="text-xs text-green-100">Murder, Theft, Fraud, Punishment</div>
+        </div>
+        <div class="bg-blue-700/50 rounded-lg px-3 py-2 text-center">
+          <div class="font-bold text-sm mb-1">BSA (Evidence)</div>
+          <div class="text-xs text-blue-100">Electronic Records, Proof, Witness</div>
+        </div>
+      </div>
+      
+      <!-- Detailed Guide - Expandable -->
+      <div id="detailedGuide" class="hidden mt-4 pt-4 border-t border-white/20">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-3 h-3 bg-purple-300 rounded-full"></div>
+              <h3 class="font-bold">BNSS</h3>
+            </div>
+            <p class="text-purple-100 text-xs mb-2 font-semibold">Bharatiya Nagarik Suraksha Sanhita</p>
+            <p class="text-white/80 text-xs mb-2">Replaced: CrPC 1973</p>
+            <div class="bg-purple-900/30 rounded p-2 mb-2">
+              <p class="text-xs font-semibold mb-1">👮 WHEN TO SEARCH:</p>
+              <ul class="text-xs space-y-1 text-purple-100">
+                <li>• FIR & Complaints</li>
+                <li>• Arrest & Custody</li>
+                <li>• Bail & Release</li>
+                <li>• Investigation Process</li>
+                <li>• Court Procedures</li>
+                <li>• Search & Seizure</li>
+                <li>• Trial & Appeals</li>
+                <li>• Witness Examination</li>
+              </ul>
+            </div>
+            <p class="text-xs text-purple-200 italic">Think: "How is a case handled?"</p>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-3 h-3 bg-green-300 rounded-full"></div>
+              <h3 class="font-bold">BNS</h3>
+            </div>
+            <p class="text-green-100 text-xs mb-2 font-semibold">Bharatiya Nyaya Sanhita</p>
+            <p class="text-white/80 text-xs mb-2">Replaced: IPC 1860</p>
+            <div class="bg-green-900/30 rounded p-2 mb-2">
+              <p class="text-xs font-semibold mb-1">⚖️ WHEN TO SEARCH:</p>
+              <ul class="text-xs space-y-1 text-green-100">
+                <li>• What is the crime?</li>
+                <li>• Murder, Theft, Rape</li>
+                <li>• Fraud & Cheating</li>
+                <li>• Kidnapping</li>
+                <li>• What's the punishment?</li>
+                <li>• Cybercrime offences</li>
+                <li>• Assault & Hurt</li>
+                <li>• Defamation</li>
+              </ul>
+            </div>
+            <p class="text-xs text-green-200 italic">Think: "What crime & punishment?"</p>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-3 h-3 bg-blue-300 rounded-full"></div>
+              <h3 class="font-bold">BSA</h3>
+            </div>
+            <p class="text-blue-100 text-xs mb-2 font-semibold">Bharatiya Sakshya Adhiniyam</p>
+            <p class="text-white/80 text-xs mb-2">Replaced: Evidence Act 1872</p>
+            <div class="bg-blue-900/30 rounded p-2 mb-2">
+              <p class="text-xs font-semibold mb-1">📁 WHEN TO SEARCH:</p>
+              <ul class="text-xs space-y-1 text-blue-100">
+                <li>• Electronic Evidence</li>
+                <li>• Digital Records</li>
+                <li>• What can be proved?</li>
+                <li>• Witness testimony</li>
+                <li>• Document admissibility</li>
+                <li>• How to prove in court?</li>
+                <li>• Expert Opinion</li>
+                <li>• Confessions</li>
+              </ul>
+            </div>
+            <p class="text-xs text-blue-200 italic">Think: "How to prove it?"</p>
+          </div>
+        </div>
+
+        <!-- Additional Help Section -->
+        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 mt-4">
+          <h3 class="font-bold text-sm mb-2 flex items-center gap-2">
+            <i data-lucide="lightbulb" class="w-4 h-4"></i>
+            Quick Tips for Using This Database:
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div>
+              <p class="font-semibold mb-1">🔍 Search Tips:</p>
+              <ul class="space-y-1 text-white/90">
+                <li>• Use simple keywords</li>
+                <li>• Try "FIR", "bail", "murder"</li>
+                <li>• Click headers to sort</li>
+              </ul>
+            </div>
+            <div>
+              <p class="font-semibold mb-1">📋 Filter Tips:</p>
+              <ul class="space-y-1 text-white/90">
+                <li>• Use law tabs (BNSS/BNS/BSA)</li>
+                <li>• Combine with search</li>
+                <li>• Sort by section number</li>
+              </ul>
+            </div>
+            <div>
+              <p class="font-semibold mb-1">🔗 India Code Tips:</p>
+              <ul class="space-y-1 text-white/90">
+                <li>• Use Ctrl+F to search</li>
+                <li>• Look in "Sections" tab</li>
+                <li>• Bookmark important pages</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Box -->
+    <div class="bg-white rounded-2xl shadow-2xl p-6 mb-6">
+      <div class="flex items-center gap-3 mb-4">
+        <i data-lucide="database" class="w-8 h-8 text-blue-600"></i>
+        <div>
+          <h1 class="text-2xl font-bold">Legal Section Search</h1>
+          <p class="text-sm text-gray-600">70 sections with instant search</p>
+        </div>
+      </div>
+
+      <!-- Law Filter Tabs -->
+      <div class="flex gap-2 mb-4 flex-wrap">
+        <button onclick="filterByLaw('ALL')" id="tab-ALL" class="tab-btn px-4 py-2 rounded-lg font-semibold transition bg-indigo-600 text-white">
+          ALL <span class="ml-2 text-xs opacity-75" id="count-ALL">(70)</span>
+        </button>
+        <button onclick="filterByLaw('BNSS')" id="tab-BNSS" class="tab-btn px-4 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-gray-200">
+          BNSS <span class="ml-2 text-xs opacity-75" id="count-BNSS">(25)</span>
+        </button>
+        <button onclick="filterByLaw('BNS')" id="tab-BNS" class="tab-btn px-4 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-gray-200">
+          BNS <span class="ml-2 text-xs opacity-75" id="count-BNS">(30)</span>
+        </button>
+        <button onclick="filterByLaw('BSA')" id="tab-BSA" class="tab-btn px-4 py-2 rounded-lg font-semibold transition bg-gray-100 text-gray-700 hover:bg-gray-200">
+          BSA <span class="ml-2 text-xs opacity-75" id="count-BSA">(15)</span>
+        </button>
+      </div>
+
+      <!-- Search Input -->
+      <div class="relative mb-4">
+        <div class="flex items-center gap-2 border-2 border-gray-300 rounded-lg focus-within:border-blue-500 bg-white">
+          <i data-lucide="search" class="w-5 h-5 text-gray-400 ml-3"></i>
+          <input type="text" id="searchInput" placeholder="Type: FIR, arrest, bail, cyber, fraud, murder, electronic evidence..."
+            class="flex-1 px-2 py-3 outline-none" oninput="performSearch()" />
+        </div>
+        <div id="searchStats" class="mt-2 text-sm text-gray-600"></div>
+      </div>
+
+      <!-- Results Table -->
+      <div class="overflow-x-auto border border-gray-200 rounded-lg">
+        <table class="w-full">
+          <thead class="bg-gray-50 border-b-2 border-gray-200">
+            <tr>
+              <th onclick="sortTable('law')" class="px-4 py-3 text-left text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none">
+                Law <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i>
+              </th>
+              <th onclick="sortTable('section')" class="px-4 py-3 text-left text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none">
+                Section <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i>
+              </th>
+              <th onclick="sortTable('title')" class="px-4 py-3 text-left text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none">
+                Title <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i>
+              </th>
+              <th onclick="sortTable('oldSection')" class="px-4 py-3 text-left text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none">
+                Old Section <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i>
+              </th>
+              <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Action</th>
+            </tr>
+          </thead>
+          <tbody id="resultsTable">
+            <!-- Results will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Selected Section Details -->
+    <div id="sectionDetails" class="bg-white rounded-2xl shadow-2xl p-6 hidden">
+      <div class="flex items-center gap-3 mb-4">
+        <span id="detailBadge" class="px-4 py-2 rounded-lg text-lg font-bold border-2"></span>
+        <div id="detailOldSection" class="px-3 py-1 bg-gray-100 rounded-lg text-sm text-gray-600"></div>
+      </div>
+      <h2 id="detailTitle" class="text-2xl font-bold text-gray-900 mb-4"></h2>
+      <div class="bg-blue-50 rounded-lg p-4 mb-4">
+        <h3 class="font-semibold text-blue-900 mb-2 flex items-center gap-2">
+          <i data-lucide="search" class="w-4 h-4"></i>
+          Search Terms for India Code:
+        </h3>
+        <div id="detailSearchTerms" class="flex flex-wrap gap-2"></div>
+      </div>
+      <div class="bg-green-50 rounded-lg p-4 mb-4">
+        <h3 class="font-semibold text-green-900 mb-2">Related Keywords:</h3>
+        <p id="detailKeywords" class="text-sm text-green-800"></p>
+      </div>
+      <a id="detailLink" href="#" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">
+        <i data-lucide="external-link" class="w-5 h-5"></i> Open in India Code Portal
+      </a>
+    </div>
+
+  </div>
+
+<script>
+  let DATABASE = [];
+  let activeFilter = 'ALL';
+
+  // Load JSON database
+  async function loadDatabase() {
+    try {
+      const res = await fetch('legal_data.json');
+      DATABASE = await res.json();
+      performSearch(); // render initial results
+    } catch (err) {
+      console.error('Failed to load legal_data.json', err);
+      document.getElementById('resultsTable').innerHTML = `
+        <tr>
+          <td colspan="4" class="px-6 py-10 text-center text-red-500">
+            Unable to load legal_data.json
+          </td>
+        </tr>`;
+    }
+  }
+
+  function filterByLaw(law) {
+    activeFilter = law;
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.classList.remove('bg-indigo-600','text-white');
+      btn.classList.add('bg-gray-100','text-gray-600');
+    });
+
+    const activeTab = document.getElementById(`tab-${law}`);
+    if (activeTab) {
+      activeTab.classList.remove('bg-gray-100','text-gray-600');
+      activeTab.classList.add('bg-indigo-600','text-white');
+    }
+
+    performSearch();
+  }
+
+  function performSearch() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    renderResults(query);
+  }
+
+  function renderResults(query = '') {
+    const tbody = document.getElementById('resultsTable');
+    tbody.innerHTML = '';
+
+    const results = DATABASE.filter(item => {
+      const lawMatch = activeFilter === 'ALL' || item.Name === activeFilter;
+      const text = `${item.Section} ${item.Title}`.toLowerCase();
+      return lawMatch && text.includes(query);
+    });
+
+    if (results.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="4" class="px-6 py-10 text-center text-gray-400">
+            No matching sections found
+          </td>
+        </tr>`;
+      return;
+    }
+
+    results.forEach(item => {
+      const sectionNo = item.Section.replace(/section/gi,'').trim();
+
+      const row = document.createElement('tr');
+      row.className = 'section-row cursor-pointer';
+      row.onclick = () => window.open(item.Link, '_blank');
+
+      row.innerHTML = `
+        <td class="px-6 py-4 font-bold text-indigo-700">${item.Name}</td>
+        <td class="px-6 py-4 font-mono text-lg">${sectionNo}</td>
+        <td class="px-6 py-4 text-gray-800">${item.Title}</td>
+        <td class="px-6 py-4 text-blue-600 font-semibold text-sm">OPEN</td>
+      `;
+
+      tbody.appendChild(row);
+    });
+
+    lucide.createIcons();
+  }
+
+  window.onload = loadDatabase;
+</script>
+
+</body>
+</html>
