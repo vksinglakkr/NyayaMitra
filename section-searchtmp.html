@@ -289,6 +289,37 @@
 
     performSearch();
   }
+    function sortTable(column) {
+      // Toggle direction if clicking same column, otherwise default to ascending
+      if (sortColumn === column) {
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+      } else {
+        sortColumn = column;
+        sortDirection = 'asc';
+      }
+      
+      // Sort the results
+      currentResults.sort((a, b) => {
+        let valA, valB;
+        
+        if (column === 'section') {
+          // Convert section to number for proper sorting
+          valA = parseInt(a.section);
+          valB = parseInt(b.section);
+        } else {
+          valA = a[column].toString().toLowerCase();
+          valB = b[column].toString().toLowerCase();
+        }
+        
+        if (sortDirection === 'asc') {
+          return valA > valB ? 1 : valA < valB ? -1 : 0;
+        } else {
+          return valA < valB ? 1 : valA > valB ? -1 : 0;
+        }
+      });
+      
+      renderResults();
+    }
 
   function performSearch() {
     const query = document.getElementById('searchInput').value.toLowerCase();
