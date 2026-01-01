@@ -260,6 +260,7 @@
     try {
       const res = await fetch('legal_data.json');
       DATABASE = await res.json();
+      updateTabCounts(); // Update counts after loading data
       performSearch(); // render initial results
     } catch (err) {
       console.error('Failed to load legal_data.json', err);
@@ -270,6 +271,23 @@
           </td>
         </tr>`;
     }
+  }
+
+  function updateTabCounts() {
+    const counts = {
+      'ALL': DATABASE.length,
+      'BNSS': DATABASE.filter(item => item.Name === 'BNSS').length,
+      'BNS': DATABASE.filter(item => item.Name === 'BNS').length,
+      'BSA': DATABASE.filter(item => item.Name === 'BSA').length
+    };
+    
+    // Update each count span
+    Object.keys(counts).forEach(law => {
+      const countSpan = document.getElementById(`count-${law}`);
+      if (countSpan) {
+        countSpan.textContent = `(${counts[law]})`;
+      }
+    });
   }
 
   function filterByLaw(law) {
