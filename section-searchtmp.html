@@ -204,10 +204,10 @@
         <table class="w-full">
           <thead class="bg-gray-50 border-b-2 border-gray-200">
             <tr>
-              <th onclick="sortTable('law')" class="px-4 py-3 text-left text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none">
+              <th onclick="sortTable('law')" class="w-1/6 px-4 py-3 text-left text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none">
                 Law <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i>
               </th>
-              <th onclick="sortTable('section')" class="px-4 py-3 text-left text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none">
+              <th onclick="sortTable('section')" class="w-1/6 px-4 py-3 text-left text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none">
                 Section <i data-lucide="arrow-up-down" class="w-3 h-3 inline"></i>
               </th>
               <th onclick="sortTable('title')" class="px-4 py-3 text-left text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none">
@@ -379,7 +379,7 @@
     }
 
     currentResults.forEach(item => {
-      const sectionNo = item.Section.replace(/section/gi,'').trim();
+      const sectionNo = item.Section.replace(/section\s*/gi,'').trim();
 
       const row = document.createElement('tr');
       row.className = 'section-row cursor-pointer';
