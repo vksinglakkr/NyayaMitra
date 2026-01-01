@@ -3,111 +3,129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Legal Intelligence - Section Search</title>
+  <title>Legal Section Search - New Criminal Laws 2024</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
-    body { background: #f8fafc; font-family: 'Outfit', sans-serif; }
+    body {
+      background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+      font-family: 'Inter', sans-serif;
+    }
+    .section-row:hover {
+      background-color: #f1f5f9;
+    }
+    /* Custom Act Badges */
     .law-badge-BNS { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
     .law-badge-BNSS { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
     .law-badge-BSA { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
   </style>
 </head>
-<body class="p-6">
+<body class="min-h-screen p-6">
   <div class="max-w-5xl mx-auto">
     
-    <div class="bg-slate-900 rounded-3xl shadow-2xl p-8 mb-8 text-white relative overflow-hidden">
-      <div class="relative z-10">
-        <div class="flex items-center gap-3 mb-4">
-          <div class="p-2 bg-indigo-500 rounded-lg">
-            <i data-lucide="scale" class="w-8 h-8 text-white"></i>
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl shadow-lg p-4 mb-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <i data-lucide="book" class="w-6 h-6"></i>
+          <div>
+            <h2 class="text-lg font-bold">Understanding India's New Criminal Laws 2024</h2>
+            <p class="text-sm text-white/80">Search 70 sections across BNSS, BNS, BSA</p>
           </div>
-          <h1 class="text-3xl font-bold tracking-tight">Bharat Nyaya Portal</h1>
         </div>
-        <p class="text-slate-400 text-lg max-w-2xl mb-8">Professional Search Interface for BNS, BNSS, and BSA Provisions.</p>
-        
-        <div class="relative">
-          <i data-lucide="search" class="absolute left-4 top-4 text-slate-500 w-6 h-6"></i>
-          <input type="text" id="searchInput" oninput="handleSearch()" 
-            placeholder="Search by section number or provision title..." 
-            class="w-full pl-14 pr-6 py-4 bg-slate-800 border border-slate-700 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none text-white text-lg transition-all placeholder:text-slate-500">
+        <div class="flex gap-2">
+          <button onclick="toggleGuide()" id="guideBtn" class="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition text-sm font-medium">
+            <i data-lucide="info" class="w-4 h-4"></i>
+            <span id="guideBtnText">Show Guide</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3 mt-3">
+        <div class="bg-purple-700/50 rounded-lg px-3 py-2 text-center">
+          <div class="font-bold text-sm mb-1">BNSS</div>
+          <div class="text-[10px] text-purple-100 uppercase tracking-wide">Procedure</div>
+        </div>
+        <div class="bg-green-700/50 rounded-lg px-3 py-2 text-center">
+          <div class="font-bold text-sm mb-1">BNS</div>
+          <div class="text-[10px] text-green-100 uppercase tracking-wide">Crimes</div>
+        </div>
+        <div class="bg-blue-700/50 rounded-lg px-3 py-2 text-center">
+          <div class="font-bold text-sm mb-1">BSA</div>
+          <div class="text-[10px] text-blue-100 uppercase tracking-wide">Evidence</div>
         </div>
       </div>
     </div>
 
-    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-6">
+      <div class="relative">
+        <i data-lucide="search" class="absolute left-3 top-3 text-slate-400 w-5 h-5"></i>
+        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Search by section or keyword..." 
+          class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
       <table class="w-full text-left border-collapse">
         <thead>
-          <tr class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-widest">
-            <th class="px-8 py-5">Act</th>
-            <th class="px-8 py-5 text-center">Section</th>
-            <th class="px-8 py-5">Provision Title</th>
+          <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+            <th class="px-6 py-4">ACT</th>
+            <th class="px-6 py-4">SECTION</th>
+            <th class="px-6 py-4">PROVISION TITLE</th>
           </tr>
         </thead>
         <tbody id="resultsBody" class="divide-y divide-slate-100">
           </tbody>
       </table>
-      <div id="loadingState" class="p-20 text-center text-slate-400">
-        <div class="animate-spin mb-4 inline-block">
-            <i data-lucide="refresh-cw" class="w-10 h-10"></i>
-        </div>
-        <p>Connecting to legal database...</p>
-      </div>
     </div>
   </div>
 
   <script>
-    let rawData = [];
+    let legalData = [];
 
-    // STEP 1: FETCH DATA FROM JSON FILE
-    async function loadLegalData() {
+    async function loadData() {
       try {
         const response = await fetch('legal_data.json');
-        rawData = await response.json();
-        document.getElementById('loadingState').classList.add('hidden');
-        renderTable(rawData);
-      } catch (err) {
-        console.error("Error loading JSON:", err);
-        document.getElementById('loadingState').innerHTML = `
-            <p class="text-red-500 font-bold">Error: legal_data.json not found.</p>
-            <p class="text-sm">Make sure your JSON file is in the same folder as this HTML.</p>
-        `;
+        legalData = await response.json();
+        renderTable(legalData);
+      } catch (error) {
+        console.error("Data Load Error:", error);
       }
     }
 
-    // STEP 2: RENDER TABLE WITH MODIFIED HEADINGS
     function renderTable(data) {
       const tbody = document.getElementById('resultsBody');
-      tbody.innerHTML = data.map(item => `
-        <tr class="hover:bg-slate-50/80 transition-all cursor-pointer group" onclick="window.open('${item.Link}', '_blank')">
-          <td class="px-8 py-5">
-            <span class="px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-wider law-badge-${item.Name}">${item.Name}</span>
-          </td>
-          <td class="px-8 py-5 font-mono font-bold text-slate-700 text-center">${item.Section}</td>
-          <td class="px-8 py-5">
-            <div class="flex items-center gap-2">
-                <span class="text-slate-700 font-semibold group-hover:text-indigo-600 transition-colors">${item.Title}</span>
-                <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-300 group-hover:text-indigo-400 opacity-0 group-hover:opacity-100 transition-all"></i>
-            </div>
-          </td>
-        </tr>
-      `).join('');
+      tbody.innerHTML = data.map(item => {
+        // CLEANUP: Remove the word "Section" and "section" to show only the number
+        const sectionNum = item.Section.replace(/Section|section/gi, '').trim();
+        
+        return `
+          <tr class="hover:bg-slate-50/80 transition-colors cursor-pointer" onclick="window.open('${item.Link}', '_blank')">
+            <td class="px-6 py-5">
+              <span class="px-3 py-1.5 rounded text-lg font-black law-badge-${item.Name}">${item.Name}</span>
+            </td>
+            <td class="px-6 py-5 font-mono text-2xl font-bold text-slate-800">${sectionNum}</td>
+            <td class="px-6 py-5">
+              <div class="text-indigo-600 font-semibold hover:underline decoration-indigo-200 underline-offset-4">
+                ${item.Title}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
       lucide.createIcons();
     }
 
-    // STEP 3: SEARCH LOGIC
     function handleSearch() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = rawData.filter(item => 
-        item.Section.toLowerCase().includes(query) || 
-        item.Title.toLowerCase().includes(query) ||
-        item.Name.toLowerCase().includes(query)
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = legalData.filter(item => 
+        item.Section.toLowerCase().includes(q) || 
+        item.Title.toLowerCase().includes(q) ||
+        item.Name.toLowerCase().includes(q)
       );
       renderTable(filtered);
     }
 
-    window.onload = loadLegalData;
+    window.onload = loadData;
   </script>
 </body>
 </html>
