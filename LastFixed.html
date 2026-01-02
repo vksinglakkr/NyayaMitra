@@ -3250,14 +3250,24 @@ function addChatMessage(text, type) {
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
           </svg>
           Share
-        </button>
+</button>
+      </div>
+      
+      <!-- Quick Suggestion Chips -->
+      <div class="mt-3 pt-3 border-t border-gray-100" id="suggestions-${Date.now()}">
+        <p class="text-xs text-gray-500 mb-2">💡 Related questions:</p>
+        <div class="flex flex-wrap gap-2">
+          <!-- Suggestions will be added dynamically -->
+        </div>
       </div>
     </div>
   `;
 }
   
-  chatMessages.appendChild(messageDiv);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+chatMessages.appendChild(messageDiv);
+chatMessages.scrollTop = chatMessages.scrollHeight;
+
+return messageDiv; // Return the created element
 }
 
 function addTypingIndicator() {
@@ -3328,9 +3338,16 @@ async function getAnswerForChat(provider, answerLevel = 'standard') {
       answerText = 'Sorry, I could not generate a response.';
     }
     
-    // Remove typing indicator and add bot response
-    removeTypingIndicator();
-    addChatMessage(answerText, 'bot');
+   // Remove typing indicator and add bot response
+removeTypingIndicator();
+const botMessageDiv = addChatMessage(answerText, 'bot');
+
+// Add smart suggestions after a brief delay
+setTimeout(() => {
+  if (botMessageDiv) {
+    addSmartSuggestions(botMessageDiv, currentQuestion);
+  }
+}, 500);
     
   } catch (error) {
     console.error('Error:', error);
@@ -3449,6 +3466,114 @@ function shareOnWhatsAppChat(button) {
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
   
   window.open(whatsappUrl, '_blank');
+}
+
+// Smart Suggestion Generator
+function addSmartSuggestions(messageDiv, originalQuestion) {
+  const suggestionsContainer = messageDiv.querySelector('[id^="suggestions-"]');
+  if (!suggestionsContainer) return;
+  
+  const chipsContainer = suggestionsContainer.querySelector('.flex');
+  
+  // Get suggestions based on question keywords
+  const suggestions = getRelatedQuestions(originalQuestion);
+  
+  if (suggestions.length === 0) return;
+  
+  // Add up to 4 suggestion chips
+  suggestions.slice(0, 4).forEach(question => {
+    const chip = document.createElement('button');
+    chip.className = 'px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-full text-xs font-medium transition border border-purple-200';
+    chip.textContent = question;
+    chip.onclick = () => {
+      document.getElementById('chatInput').value = question;
+      sendChatMessage();
+    };
+    chipsContainer.appendChild(chip);
+  });
+}
+
+function getRelatedQuestions(question) {
+  const q = question.toLowerCase();
+  
+  // Topic-based suggestions
+  const suggestionMap = {
+    'fir': [
+      'How long does it take to file FIR?',
+      'Can police refuse to register FIR?',
+      'What happens after FIR is filed?',
+      'Can FIR be withdrawn?'
+    ],
+    'bail': [
+      'What are bail conditions?',
+      'How much time for bail hearing?',
+      'Can bail be cancelled?',
+      'What is anticipatory bail?'
+    ],
+    'arrest': [
+      'What are rights during arrest?',
+      'Can arrest happen without warrant?',
+      'How long can police detain?',
+      'What is the arrest procedure?'
+    ],
+    'cyber': [
+      'How to report cyber crime?',
+      'What is cyber police helpline?',
+      'Can money be recovered in cyber fraud?',
+      'How long to report online fraud?'
+    ],
+    'evidence': [
+      'What is electronic evidence?',
+      'Can WhatsApp chats be evidence?',
+      'How to prove digital records?',
+      'What documents are needed?'
+    ],
+    'witness': [
+      'Who can be a witness?',
+      'Can witness refuse to testify?',
+      'What is witness protection?',
+      'How is witness examined?'
+    ],
+    'complaint': [
+      'Where to file complaint?',
+      'What is difference between FIR and complaint?',
+      'Can complaint be filed online?',
+      'How to track complaint status?'
+    ],
+    'investigation': [
+      'How long can investigation take?',
+      'What are investigation stages?',
+      'Can victim participate in investigation?',
+      'What if investigation is delayed?'
+    ],
+    'trial': [
+      'How long does trial take?',
+      'What happens in trial?',
+      'Can trial be fast-tracked?',
+      'What are stages of trial?'
+    ],
+    'punishment': [
+      'What are types of punishment?',
+      'Can punishment be reduced?',
+      'What is life imprisonment?',
+      'What are penalties for crimes?'
+    ]
+  };
+  
+  // Find matching topic
+  for (const [keyword, questions] of Object.entries(suggestionMap)) {
+    if (q.includes(keyword)) {
+      return questions;
+    }
+  }
+  
+  // Default suggestions if no match
+  return [
+    'What is the difference between BNS and IPC?',
+    'How to file FIR online?',
+    'What are my legal rights?',
+    'How to get legal aid?'
+  ];
 }
 </script>
 
