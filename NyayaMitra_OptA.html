@@ -273,22 +273,6 @@
       background: linear-gradient(135deg, #dc2626, #ef4444) !important;
       animation: pulseRec 1.5s ease-in-out infinite;
     }
-/* Hide main form content in simple mode */
-body.simple-mode .glass-card {
-  display: none !important;
-}
-
-/* Show chat ONLY in simple mode */
-body.simple-mode #chatInterface {
-  display: flex !important;
-}
-
-/* Ensure chat is hidden in power mode */
-body:not(.simple-mode) #chatInterface {
-  display: none !important;
-}
-
-
     /* iOS-Style Toggle Switch */
 .mode-toggle-container {
   display: flex;
@@ -364,13 +348,13 @@ body.simple-mode #profileAccordion {
   display: none;
 }
 
-/* Chat interface - hidden by default */
+/* Chat Interface Styles */
 #chatInterface {
   display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  background: linear-gradient(to bottom right, #f3e8ff, #dbeafe);
+}
+
+#chatInterface.active {
+  display: flex;
 }
 
 .chat-bubble-user {
@@ -841,11 +825,11 @@ body.simple-mode #profileAccordion {
       <!-- Mode Toggle -->
       <div class="flex justify-center mt-2">
         <div class="mode-toggle-container">
-<span class="mode-label active" id="simpleModeLabel">💬 Chat</span>
-<div class="mode-toggle" id="modeToggle" onclick="toggleMode()">
-  <div class="mode-toggle-slider"></div>
-</div>
-<span class="mode-label" id="powerModeLabel">⚡ Advanced</span>
+          <span class="mode-label active" id="simpleModeLabel">Simple</span>
+          <div class="mode-toggle" id="modeToggle" onclick="toggleMode()">
+            <div class="mode-toggle-slider"></div>
+          </div>
+          <span class="mode-label" id="powerModeLabel">Power</span>
         </div>
       </div>
     </div>
@@ -1078,158 +1062,33 @@ body.simple-mode #profileAccordion {
   <!-- Chat Container -->
   <div class="h-full max-w-4xl mx-auto flex flex-col">
     
-    <!-- Chat Header -->
-    <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg">
-      <!-- Top Row: Logo + Actions -->
-      <div class="flex items-center justify-between p-4">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-2xl">
-            ⚖️
-          </div>
-          <div>
-            <h2 class="font-bold text-lg">NyayaMitra</h2>
-            <p class="text-xs text-purple-100" id="chatHeaderStatus">AI Legal Assistant • Online</p>
-          </div>
-        </div>
-        
-        <!-- Header Actions -->
-        <div class="flex items-center gap-2">
-          <button onclick="clearChatHistory()" class="hover:bg-white/20 p-2 rounded-full transition" title="Clear chat">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-            </svg>
-          </button>
-          <button onclick="closeChatInterface()" class="hover:bg-white/20 p-2 rounded-full transition" title="Switch to Full Features">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-      
-      <!-- Bottom Row: Mode Toggle -->
-      <div class="flex items-center justify-center px-4 pb-3 pt-2 border-t border-white/20">
-        <div class="mode-toggle-container" style="background: rgba(255,255,255,0.1);">
-          <span class="mode-label active" style="color: white;" id="simpleModeLabel">💬 Simple Chat</span>
-          <div class="mode-toggle" id="modeToggle" onclick="toggleMode()">
-            <div class="mode-toggle-slider"></div>
-          </div>
-          <span class="mode-label" style="color: rgba(255,255,255,0.7);" id="powerModeLabel">⚡ Full Features</span>
-        </div>
-      </div>
+<!-- Chat Header -->
+<div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 shadow-lg flex items-center justify-between">
+  <div class="flex items-center gap-3">
+    <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-2xl">
+      ⚖️
     </div>
-
-    <!-- Chat Messages Area -->
-    <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-4" style="background: #f9fafb;">
-      
-      <!-- Welcome Message -->
-      <div class="flex gap-3 items-start">
-        <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-white flex-shrink-0">
-          ⚖️
-        </div>
-        <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4 max-w-[85%]">
-          <p class="text-sm text-gray-800">
-            👋 Namaste! I'm <strong>NyayaMitra</strong>, your AI legal assistant.<br><br>
-            Ask me anything about India's new criminal laws (BNS, BNSS, BSA).
-          </p>
-          <p class="text-xs text-gray-400 mt-2">Just now</p>
-        </div>
-      </div>
-
-      <!-- Quick Start Examples -->
-      <div class="px-2">
-        <p class="text-xs text-gray-500 mb-2 font-semibold">✨ Try asking:</p>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <!-- Example 1 -->
-          <button onclick="askQuickQuestion('How to file an FIR online?')" 
-                  class="text-left p-3 bg-white hover:bg-purple-50 border-2 border-purple-200 rounded-xl transition group">
-            <div class="flex items-start gap-2">
-              <span class="text-lg">📋</span>
-              <div class="flex-1">
-                <p class="text-xs font-semibold text-gray-900 group-hover:text-purple-700">How to file an FIR online?</p>
-                <p class="text-xs text-gray-500 mt-0.5">Filing & procedures</p>
-              </div>
-            </div>
-          </button>
-          
-          <!-- Example 2 -->
-          <button onclick="askQuickQuestion('What are my bail rights under new law?')" 
-                  class="text-left p-3 bg-white hover:bg-blue-50 border-2 border-blue-200 rounded-xl transition group">
-            <div class="flex items-start gap-2">
-              <span class="text-lg">🔐</span>
-              <div class="flex-1">
-                <p class="text-xs font-semibold text-gray-900 group-hover:text-blue-700">What are my bail rights?</p>
-                <p class="text-xs text-gray-500 mt-0.5">Arrest & bail</p>
-              </div>
-            </div>
-          </button>
-          
-          <!-- Example 3 -->
-          <button onclick="askQuickQuestion('How to report cyber crime and fraud?')" 
-                  class="text-left p-3 bg-white hover:bg-green-50 border-2 border-green-200 rounded-xl transition group">
-            <div class="flex items-start gap-2">
-              <span class="text-lg">💻</span>
-              <div class="flex-1">
-                <p class="text-xs font-semibold text-gray-900 group-hover:text-green-700">How to report cyber crime?</p>
-                <p class="text-xs text-gray-500 mt-0.5">Online safety</p>
-              </div>
-            </div>
-          </button>
-          
-          <!-- Example 4 -->
-          <button onclick="askQuickQuestion('What is the difference between BNS and IPC?')" 
-                  class="text-left p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-xl transition group">
-            <div class="flex items-start gap-2">
-              <span class="text-lg">⚖️</span>
-              <div class="flex-1">
-                <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">BNS vs IPC difference?</p>
-                <p class="text-xs text-gray-500 mt-0.5">New vs old laws</p>
-              </div>
-            </div>
-          </button>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Chat Input Area -->
-    <div class="bg-white border-t border-gray-200 p-4 shadow-lg">
-      <div class="flex gap-2 mb-2">
-        <input 
-          type="text" 
-          id="chatInput" 
-          placeholder="💬 Type your question..."
-          class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-full outline-none focus:border-purple-500"
-          onkeypress="if(event.key==='Enter') sendChatMessage()"
-        >
-        <button 
-          onclick="toggleChatVoiceInput()" 
-          id="chatVoiceBtn"
-          class="px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-full transition">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
-          </svg>
-        </button>
-        <button 
-          onclick="sendChatMessage()" 
-          class="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-full font-medium hover:from-purple-700 hover:to-indigo-700 transition flex items-center gap-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-          </svg>
-          Send
-        </button>
-      </div>
-      
-      <!-- Quick Info -->
-      <div class="flex items-center justify-between text-xs text-gray-500">
-        <span>Press Enter to send</span>
-        <span id="chatTypingStatus"></span>
-      </div>
-    </div>
-
+<div>
+  <h2 class="font-bold text-lg">NyayaMitra</h2>
+  <p class="text-xs text-purple-100" id="chatHeaderStatus">AI Legal Assistant • Online</p>
+</div>
+  </div>
+  
+  <!-- Header Actions -->
+  <div class="flex items-center gap-2">
+    <button onclick="clearChatHistory()" class="hover:bg-white/20 p-2 rounded-full transition" title="Clear chat">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+      </svg>
+    </button>
+    <button onclick="closeChatInterface()" class="hover:bg-white/20 p-2 rounded-full transition" title="Back to form">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
   </div>
 </div>
+
     <!-- Chat Messages Area -->
     <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-4">
       
@@ -3005,15 +2864,17 @@ document.getElementById('submitBtn').addEventListener('click', async function() 
     return;
   }
   
-// Check if simple mode - use chat interface
-if (currentMode === 'simple') {
-  // Chat should already be open in simple mode
-  // Just transfer question and send
-  document.getElementById('chatInput').value = question;
-  sendChatMessage();
-  document.getElementById('userInput').value = ''; // Clear original input
-  return;
-}
+  // Check if simple mode - use chat interface
+  if (currentMode === 'simple') {
+    // Open chat interface
+    document.getElementById('chatInterface').classList.add('active');
+    
+    // Transfer question to chat input and send
+    document.getElementById('chatInput').value = question;
+    sendChatMessage();
+    document.getElementById('userInput').value = ''; // Clear original input
+    return;
+  }
   
   // POWER MODE - Continue with modal logic below
   
@@ -3364,41 +3225,29 @@ function toggleMode() {
   const simpleLabel = document.getElementById('simpleModeLabel');
   const powerLabel = document.getElementById('powerModeLabel');
   
-if (currentMode === 'simple') {
-  // Switch to Power mode
-  currentMode = 'power';
-  toggle.classList.add('power');
-  simpleLabel.classList.remove('active');
-  powerLabel.classList.add('active');
-  document.body.classList.remove('simple-mode');
-  
-  // Explicitly hide chat interface
-  const chatInterface = document.getElementById('chatInterface');
-  if (chatInterface) {
-    chatInterface.style.display = 'none';
-  }
-  
-  console.log('🔥 Switched to POWER MODE - Chat hidden');
+  if (currentMode === 'simple') {
+    // Switch to Power mode
+    currentMode = 'power';
+    toggle.classList.add('power');
+    simpleLabel.classList.remove('active');
+    powerLabel.classList.add('active');
+    document.body.classList.remove('simple-mode');
     
-} else {
-  // Switch to Simple mode
-  currentMode = 'simple';
-  toggle.classList.remove('power');
-  simpleLabel.classList.add('active');
-  powerLabel.classList.remove('active');
-  document.body.classList.add('simple-mode');
-  
-  // Auto-select custom query type in simple mode
-  selectQueryType('custom');
-  
-  // Explicitly show chat interface
-  const chatInterface = document.getElementById('chatInterface');
-  if (chatInterface) {
-    chatInterface.style.display = 'flex';
+    console.log('🔥 Switched to POWER MODE');
+    
+  } else {
+    // Switch to Simple mode
+    currentMode = 'simple';
+    toggle.classList.remove('power');
+    simpleLabel.classList.add('active');
+    powerLabel.classList.remove('active');
+    document.body.classList.add('simple-mode');
+    
+    // Auto-select custom query type in simple mode
+    selectQueryType('custom');
+    
+    console.log('✨ Switched to SIMPLE MODE');
   }
-  
-  console.log('✨ Switched to SIMPLE MODE - Chat visible');
-}
   
   // Save preference
   localStorage.setItem('nyayaMitraMode', currentMode);
@@ -3427,35 +3276,12 @@ function selectSimpleUser(userType) {
 window.addEventListener('DOMContentLoaded', function() {
   const savedMode = localStorage.getItem('nyayaMitraMode');
   
-  if (savedMode === 'power') {
-    // User previously selected power mode
-    // Do nothing - page loads in power mode naturally
-    console.log('💡 Loading in saved POWER MODE');
-} else {
-  // Default to simple mode
+  // Start in simple mode by default
   document.body.classList.add('simple-mode');
-  currentMode = 'simple';
   
-  // Set toggle UI to simple mode
-  const toggle = document.getElementById('modeToggle');
-  const simpleLabel = document.getElementById('simpleModeLabel');
-  const powerLabel = document.getElementById('powerModeLabel');
-  
-  if (toggle) {
-    toggle.classList.remove('power');
-    simpleLabel.classList.add('active');
-    powerLabel.classList.remove('active');
+  if (savedMode === 'power') {
+    toggleMode(); // Switch to power mode if previously selected
   }
-  
-  // Explicitly show chat in simple mode
-  setTimeout(() => {
-    const chatInterface = document.getElementById('chatInterface');
-    if (chatInterface) {
-      chatInterface.style.display = 'flex';
-    }
-    console.log('✨ Loading in SIMPLE MODE with chat visible');
-  }, 300);
-}
 });
 // Chat Interface Functions
 function sendChatMessage() {
@@ -3607,24 +3433,7 @@ function removeTypingIndicator() {
 }
 
 function closeChatInterface() {
-  // If in simple mode, switch back to power mode
-  if (currentMode === 'simple') {
-    // Switch to power mode
-    const toggle = document.getElementById('modeToggle');
-    const simpleLabel = document.getElementById('simpleModeLabel');
-    const powerLabel = document.getElementById('powerModeLabel');
-    
-    currentMode = 'power';
-    toggle.classList.add('power');
-    simpleLabel.classList.remove('active');
-    powerLabel.classList.add('active');
-    document.body.classList.remove('simple-mode');
-    
-    // Save preference
-    localStorage.setItem('nyayaMitraMode', 'power');
-    
-    console.log('✨ Closed chat - Switched back to POWER MODE');
-  }
+  document.getElementById('chatInterface').classList.remove('active');
 }
 
 // Modified getAnswer for chat mode
