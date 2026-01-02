@@ -2752,28 +2752,44 @@ document.getElementById('voiceBtn').addEventListener('click', function (e) {
   recognition.start();
 });
 
-    document.getElementById('submitBtn').addEventListener('click', async function() {
-      const question = document.getElementById('userInput').value.trim();
-      
-      if (!question) {
-        alert('कृपया प्रश्न दर्ज करें! / Please enter your question!');
-        return;
-      }
-      
-      // Profile is always selected (default: citizen) so no need to validate
-      // But show a gentle reminder if user hasn't explicitly selected
-      if (selectedUser === 'citizen' && !document.getElementById('userCitizenMain').classList.contains('selected')) {
-        console.log('ℹ️ Using default profile: General Citizen');
-      }
-      
-      // Reset for new question
-      currentQuestion = question;
-      currentAnswerLevel = 'standard'; // Default to standard
-      aiUsed = { groq: false, chatgpt: true };
-      
-      // Always use Groq first (fastest) with standard depth
-      await getAnswer('chatgpt', 'standard');
-    });
+document.getElementById('submitBtn').addEventListener('click', async function() {
+  // Get question from textarea
+  const question = document.getElementById('userInput').value.trim();
+  
+  // Validate question
+  if (!question) {
+    alert('कृपया प्रश्न दर्ज करें! / Please enter your question!');
+    return;
+  }
+  
+  // Check if simple mode - use chat interface
+  if (currentMode === 'simple') {
+    // Open chat interface
+    document.getElementById('chatInterface').classList.add('active');
+    
+    // Transfer question to chat input and send
+    document.getElementById('chatInput').value = question;
+    sendChatMessage();
+    document.getElementById('userInput').value = ''; // Clear original input
+    return;
+  }
+  
+  // POWER MODE - Continue with modal logic below
+  
+  // Profile is always selected (default: citizen)
+  // Show gentle reminder if user hasn't explicitly selected
+  if (selectedUser === 'citizen' && !document.getElementById('userCitizenMain').classList.contains('selected')) {
+    console.log('ℹ️ Using default profile: General Citizen');
+  }
+  
+  // Reset for new question
+  currentQuestion = question;
+  currentAnswerLevel = 'standard'; // Default to standard
+  aiUsed = { groq: false, chatgpt: true };
+  
+  // Call API with ChatGPT and standard depth
+  await getAnswer('chatgpt', 'standard');
+});
 
 document.getElementById('closeModal').addEventListener('click', function() {
   speechSynthesis.cancel();   // 🔇 Stop listening
