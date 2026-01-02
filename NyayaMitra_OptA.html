@@ -285,14 +285,7 @@ body.simple-mode #chatInterface {
   height: calc(100vh - 0px) !important;
 }
 
-/* Keep toggle visible in simple mode */
-body.simple-mode .mode-toggle-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 2000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
+
     /* iOS-Style Toggle Switch */
 .mode-toggle-container {
   display: flex;
@@ -845,11 +838,11 @@ body.simple-mode #profileAccordion {
       <!-- Mode Toggle -->
       <div class="flex justify-center mt-2">
         <div class="mode-toggle-container">
-          <span class="mode-label active" id="simpleModeLabel">Simple</span>
-          <div class="mode-toggle" id="modeToggle" onclick="toggleMode()">
-            <div class="mode-toggle-slider"></div>
-          </div>
-          <span class="mode-label" id="powerModeLabel">Power</span>
+<span class="mode-label active" id="simpleModeLabel">💬 Chat</span>
+<div class="mode-toggle" id="modeToggle" onclick="toggleMode()">
+  <div class="mode-toggle-slider"></div>
+</div>
+<span class="mode-label" id="powerModeLabel">⚡ Advanced</span>
         </div>
       </div>
     </div>
@@ -1083,20 +1076,46 @@ body.simple-mode #profileAccordion {
   <div class="h-full max-w-4xl mx-auto flex flex-col">
     
 <!-- Chat Header -->
-<div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 shadow-lg flex items-center justify-between">
-  <div class="flex items-center gap-3">
-    <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-2xl">
-      ⚖️
+<!-- Chat Header -->
+<div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 shadow-lg">
+  <!-- Top Row: Logo + Toggle + Actions -->
+  <div class="flex items-center justify-between mb-2">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-2xl">
+        ⚖️
+      </div>
+      <div>
+        <h2 class="font-bold text-lg">NyayaMitra</h2>
+        <p class="text-xs text-purple-100" id="chatHeaderStatus">AI Legal Assistant • Online</p>
+      </div>
     </div>
-<div>
-  <h2 class="font-bold text-lg">NyayaMitra</h2>
-  <p class="text-xs text-purple-100" id="chatHeaderStatus">AI Legal Assistant • Online</p>
-</div>
+    
+    <!-- Header Actions -->
+    <div class="flex items-center gap-2">
+      <button onclick="clearChatHistory()" class="hover:bg-white/20 p-2 rounded-full transition" title="Clear chat">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+        </svg>
+      </button>
+      <button onclick="closeChatInterface()" class="hover:bg-white/20 p-2 rounded-full transition" title="Back to form">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
   </div>
   
-  <!-- Header Actions -->
-  <div class="flex items-center gap-2">
-    <button onclick="clearChatHistory()" class="hover:bg-white/20 p-2 rounded-full transition" title="Clear chat">
+  <!-- Bottom Row: Mode Toggle (Prominent) -->
+  <div class="flex items-center justify-center pt-2 border-t border-white/20">
+    <div class="mode-toggle-container bg-white/10">
+      <span class="mode-label active text-white" id="simpleModeLabel">Simple Chat</span>
+      <div class="mode-toggle" id="modeToggle" onclick="toggleMode()">
+        <div class="mode-toggle-slider"></div>
+      </div>
+      <span class="mode-label text-white/70" id="powerModeLabel">Full Features</span>
+    </div>
+  </div>
+</div>
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
       </svg>
@@ -2884,17 +2903,15 @@ document.getElementById('submitBtn').addEventListener('click', async function() 
     return;
   }
   
-  // Check if simple mode - use chat interface
-  if (currentMode === 'simple') {
-    // Open chat interface
-    document.getElementById('chatInterface').classList.add('active');
-    
-    // Transfer question to chat input and send
-    document.getElementById('chatInput').value = question;
-    sendChatMessage();
-    document.getElementById('userInput').value = ''; // Clear original input
-    return;
-  }
+// Check if simple mode - use chat interface
+if (currentMode === 'simple') {
+  // Chat should already be open in simple mode
+  // Just transfer question and send
+  document.getElementById('chatInput').value = question;
+  sendChatMessage();
+  document.getElementById('userInput').value = ''; // Clear original input
+  return;
+}
   
   // POWER MODE - Continue with modal logic below
   
