@@ -325,6 +325,28 @@
 .mode-label.active {
   color: #1f2937;
 }
+/* Simple Mode - Hide Power Features */
+.power-mode-only {
+  display: block !important;
+  transition: opacity 0.3s ease;
+}
+
+body.simple-mode .power-mode-only {
+  display: none !important;
+}
+
+/* Simple Mode - Compact Profile Selector */
+#simpleProfileSelect {
+  display: none;
+}
+
+body.simple-mode #simpleProfileSelect {
+  display: block;
+}
+
+body.simple-mode #profileAccordion {
+  display: none;
+}
     @keyframes pulseRec {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.1); }
@@ -736,11 +758,25 @@
   </div>
 
 </div>
-
+<!-- Simple Mode Profile Selector -->
+<div id="simpleProfileSelect" class="mb-4" style="display: none;">
+  <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-xl p-3">
+    <div class="flex items-center gap-3">
+      <span class="text-2xl" id="simpleProfileIcon">🧑‍💼</span>
+      <select id="simpleUserSelect" 
+              class="flex-1 px-4 py-2 border-2 border-blue-300 rounded-lg bg-white focus:border-blue-500 outline-none"
+              onchange="selectSimpleUser(this.value)">
+        <option value="citizen">👤 General Citizen</option>
+        <option value="student">🎓 Law Student</option>
+        <option value="police">👮 Police Officer</option>
+        <option value="legal">⚖️ Legal Professional</option>
+      </select>
+    </div>
+  </div>
+</div>
     <div class="p-2">
-      
       <!-- ALWAYS VISIBLE: Who are you? -->
-       <div class="mb-4" id="profileAccordion">
+      <div class="mb-4" id="profileAccordion" class="power-mode-only">
         <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-2xl p-4" id="profileSelector">
           <label class="block text-base font-bold text-gray-800 mb-3 flex items-center gap-2">
         <span class="bg-blue-100 text-blue-700 rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">👤</span>
@@ -788,7 +824,7 @@
 </div>
       </div>
       
-      <div class="query-type-selector">
+     <div class="query-type-selector power-mode-only">
         <h3 class="text-xl font-bold text-gray-900 mb-4 text-center flex items-center justify-center gap-2">
           <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -860,7 +896,7 @@
         </div>
 
         <!-- READY QUESTIONS DIV -->
-        <div id="readyQuestionDiv" style="display: none;" class="mb-8 fade-in">
+        <div id="readyQuestionDiv" style="display: none;" class="mb-8 fade-in power-mode-only">
           
           <!-- Step 1: WHAT TOPIC? (Profile already selected at top) -->
           <div class="mb-6" id="topicSection" style="display: none;">
@@ -2950,9 +2986,9 @@ function toggleMode() {
     toggle.classList.add('power');
     simpleLabel.classList.remove('active');
     powerLabel.classList.add('active');
+    document.body.classList.remove('simple-mode');
     
     console.log('🔥 Switched to POWER MODE');
-    // TODO: Show power features
     
   } else {
     // Switch to Simple mode
@@ -2960,18 +2996,44 @@ function toggleMode() {
     toggle.classList.remove('power');
     simpleLabel.classList.add('active');
     powerLabel.classList.remove('active');
+    document.body.classList.add('simple-mode');
+    
+    // Auto-select custom query type in simple mode
+    selectQueryType('custom');
     
     console.log('✨ Switched to SIMPLE MODE');
-    // TODO: Hide power features
   }
   
   // Save preference
   localStorage.setItem('nyayaMitraMode', currentMode);
 }
 
-// Load saved mode on page load
+// Simple Profile Selector
+function selectSimpleUser(userType) {
+  selectedUser = userType;
+  
+  const icons = {
+    citizen: '🧑‍💼',
+    student: '🎓',
+    police: '👮',
+    legal: '⚖️'
+  };
+  
+  document.getElementById('simpleProfileIcon').textContent = icons[userType];
+  
+  // Also update the main profile selector in case user switches to power mode
+  selectMainUser(userType);
+  
+  console.log('Simple mode - Selected user:', userType);
+}
+
+// Initialize mode on page load
 window.addEventListener('DOMContentLoaded', function() {
   const savedMode = localStorage.getItem('nyayaMitraMode');
+  
+  // Start in simple mode by default
+  document.body.classList.add('simple-mode');
+  
   if (savedMode === 'power') {
     toggleMode(); // Switch to power mode if previously selected
   }
