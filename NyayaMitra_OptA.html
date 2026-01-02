@@ -3302,15 +3302,29 @@ function selectSimpleUser(userType) {
 window.addEventListener('DOMContentLoaded', function() {
   const savedMode = localStorage.getItem('nyayaMitraMode');
   
-  // Start in simple mode by default
-  document.body.classList.add('simple-mode');
-  
   if (savedMode === 'power') {
-    toggleMode(); // Switch to power mode if previously selected
+    // User previously selected power mode
+    // Do nothing - page loads in power mode naturally
+    console.log('💡 Loading in saved POWER MODE');
   } else {
-    // Auto-open chat in simple mode on page load
+    // Default to simple mode
+    document.body.classList.add('simple-mode');
+    
+    // Set toggle UI to simple mode
+    const toggle = document.getElementById('modeToggle');
+    const simpleLabel = document.getElementById('simpleModeLabel');
+    const powerLabel = document.getElementById('powerModeLabel');
+    
+    if (toggle) {
+      toggle.classList.remove('power');
+      simpleLabel.classList.add('active');
+      powerLabel.classList.remove('active');
+    }
+    
+    // Auto-open chat in simple mode
     setTimeout(() => {
       document.getElementById('chatInterface').classList.add('active');
+      console.log('✨ Loading in SIMPLE MODE with chat');
     }, 300);
   }
 });
