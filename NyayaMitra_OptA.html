@@ -280,9 +280,10 @@ body.simple-mode .glass-card {
 
 body.simple-mode #chatInterface {
   display: flex !important;
-  position: relative !important;
-  inset: auto !important;
-  height: calc(100vh - 0px) !important;
+  position: fixed !important;
+  inset: 0 !important;
+  height: 100vh !important;
+  z-index: 1000 !important;
 }
 
 
@@ -3369,8 +3370,8 @@ if (currentMode === 'simple') {
   powerLabel.classList.add('active');
   document.body.classList.remove('simple-mode');
   
-  // Close chat interface when switching to power mode
-  document.getElementById('chatInterface').classList.remove('active');
+// Chat will be hidden by CSS when simple-mode class is removed
+// No need to manipulate 'active' class
   
   console.log('🔥 Switched to POWER MODE');
     
@@ -3385,8 +3386,8 @@ if (currentMode === 'simple') {
   // Auto-select custom query type in simple mode
   selectQueryType('custom');
   
-  // Auto-open chat interface in simple mode
-  document.getElementById('chatInterface').classList.add('active');
+// Chat will be shown by CSS via body.simple-mode
+// No need to add 'active' class
   
   console.log('✨ Switched to SIMPLE MODE - Chat interface opened');
 }
@@ -3437,11 +3438,10 @@ window.addEventListener('DOMContentLoaded', function() {
       powerLabel.classList.remove('active');
     }
     
-    // Auto-open chat in simple mode
-    setTimeout(() => {
-      document.getElementById('chatInterface').classList.add('active');
-      console.log('✨ Loading in SIMPLE MODE with chat');
-    }, 300);
+// Auto-open chat in simple mode (CSS handles display via body.simple-mode)
+setTimeout(() => {
+  console.log('✨ Loading in SIMPLE MODE with chat');
+}, 300);
   }
 });
 // Chat Interface Functions
@@ -3594,8 +3594,6 @@ function removeTypingIndicator() {
 }
 
 function closeChatInterface() {
-  document.getElementById('chatInterface').classList.remove('active');
-  
   // If in simple mode, switch back to power mode
   if (currentMode === 'simple') {
     // Switch to power mode
@@ -3608,6 +3606,9 @@ function closeChatInterface() {
     simpleLabel.classList.remove('active');
     powerLabel.classList.add('active');
     document.body.classList.remove('simple-mode');
+    
+    // Save preference
+    localStorage.setItem('nyayaMitraMode', 'power');
     
     console.log('✨ Closed chat - Switched back to POWER MODE');
   }
