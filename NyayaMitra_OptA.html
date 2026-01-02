@@ -273,6 +273,26 @@
       background: linear-gradient(135deg, #dc2626, #ef4444) !important;
       animation: pulseRec 1.5s ease-in-out infinite;
     }
+/* Hide main form content in simple mode */
+body.simple-mode .glass-card {
+  display: none !important;
+}
+
+body.simple-mode #chatInterface {
+  display: flex !important;
+  position: relative !important;
+  inset: auto !important;
+  height: calc(100vh - 0px) !important;
+}
+
+/* Keep toggle visible in simple mode */
+body.simple-mode .mode-toggle-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
     /* iOS-Style Toggle Switch */
 .mode-toggle-container {
   display: flex;
@@ -3225,29 +3245,35 @@ function toggleMode() {
   const simpleLabel = document.getElementById('simpleModeLabel');
   const powerLabel = document.getElementById('powerModeLabel');
   
-  if (currentMode === 'simple') {
-    // Switch to Power mode
-    currentMode = 'power';
-    toggle.classList.add('power');
-    simpleLabel.classList.remove('active');
-    powerLabel.classList.add('active');
-    document.body.classList.remove('simple-mode');
+if (currentMode === 'simple') {
+  // Switch to Power mode
+  currentMode = 'power';
+  toggle.classList.add('power');
+  simpleLabel.classList.remove('active');
+  powerLabel.classList.add('active');
+  document.body.classList.remove('simple-mode');
+  
+  // Close chat interface when switching to power mode
+  document.getElementById('chatInterface').classList.remove('active');
+  
+  console.log('🔥 Switched to POWER MODE');
     
-    console.log('🔥 Switched to POWER MODE');
-    
-  } else {
-    // Switch to Simple mode
-    currentMode = 'simple';
-    toggle.classList.remove('power');
-    simpleLabel.classList.add('active');
-    powerLabel.classList.remove('active');
-    document.body.classList.add('simple-mode');
-    
-    // Auto-select custom query type in simple mode
-    selectQueryType('custom');
-    
-    console.log('✨ Switched to SIMPLE MODE');
-  }
+} else {
+  // Switch to Simple mode
+  currentMode = 'simple';
+  toggle.classList.remove('power');
+  simpleLabel.classList.add('active');
+  powerLabel.classList.remove('active');
+  document.body.classList.add('simple-mode');
+  
+  // Auto-select custom query type in simple mode
+  selectQueryType('custom');
+  
+  // Auto-open chat interface in simple mode
+  document.getElementById('chatInterface').classList.add('active');
+  
+  console.log('✨ Switched to SIMPLE MODE - Chat interface opened');
+}
   
   // Save preference
   localStorage.setItem('nyayaMitraMode', currentMode);
@@ -3281,6 +3307,11 @@ window.addEventListener('DOMContentLoaded', function() {
   
   if (savedMode === 'power') {
     toggleMode(); // Switch to power mode if previously selected
+  } else {
+    // Auto-open chat in simple mode on page load
+    setTimeout(() => {
+      document.getElementById('chatInterface').classList.add('active');
+    }, 300);
   }
 });
 // Chat Interface Functions
@@ -3434,6 +3465,22 @@ function removeTypingIndicator() {
 
 function closeChatInterface() {
   document.getElementById('chatInterface').classList.remove('active');
+  
+  // If in simple mode, switch back to power mode
+  if (currentMode === 'simple') {
+    // Switch to power mode
+    const toggle = document.getElementById('modeToggle');
+    const simpleLabel = document.getElementById('simpleModeLabel');
+    const powerLabel = document.getElementById('powerModeLabel');
+    
+    currentMode = 'power';
+    toggle.classList.add('power');
+    simpleLabel.classList.remove('active');
+    powerLabel.classList.add('active');
+    document.body.classList.remove('simple-mode');
+    
+    console.log('✨ Closed chat - Switched back to POWER MODE');
+  }
 }
 
 // Modified getAnswer for chat mode
