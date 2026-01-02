@@ -273,7 +273,58 @@
       background: linear-gradient(135deg, #dc2626, #ef4444) !important;
       animation: pulseRec 1.5s ease-in-out infinite;
     }
-    
+    /* iOS-Style Toggle Switch */
+.mode-toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mode-toggle {
+  position: relative;
+  width: 56px;
+  height: 28px;
+  background: linear-gradient(135deg, #f59e0b, #ff6b35);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mode-toggle.power {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+}
+
+.mode-toggle-slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.mode-toggle.power .mode-toggle-slider {
+  transform: translateX(28px);
+}
+
+.mode-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mode-label.active {
+  color: #1f2937;
+}
     @keyframes pulseRec {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.1); }
@@ -653,10 +704,22 @@
         </p>
       </div>
 
-      <p class="text-sm text-gray-600 font-semibold mb-3 tracking-wide">
+     <p class="text-sm text-gray-600 font-semibold mb-2 tracking-wide">
         AI Assistant for New Criminal Laws
       </p>
+      
+      <!-- Mode Toggle -->
+      <div class="flex justify-center mt-2">
+        <div class="mode-toggle-container">
+          <span class="mode-label active" id="simpleModeLabel">Simple</span>
+          <div class="mode-toggle" id="modeToggle" onclick="toggleMode()">
+            <div class="mode-toggle-slider"></div>
+          </div>
+          <span class="mode-label" id="powerModeLabel">Power</span>
+        </div>
+      </div>
     </div>
+    
 
     <!-- Right spacer (keeps title perfectly centered) -->
     <div class="w-12 md:w-14"></div>
@@ -2872,6 +2935,47 @@ function updateListeningUI(active) {
     updateListeningUI(false);
     isListening = false;
   }
+
+  // Mode Toggle Functionality
+let currentMode = 'simple'; // Default mode
+
+function toggleMode() {
+  const toggle = document.getElementById('modeToggle');
+  const simpleLabel = document.getElementById('simpleModeLabel');
+  const powerLabel = document.getElementById('powerModeLabel');
+  
+  if (currentMode === 'simple') {
+    // Switch to Power mode
+    currentMode = 'power';
+    toggle.classList.add('power');
+    simpleLabel.classList.remove('active');
+    powerLabel.classList.add('active');
+    
+    console.log('🔥 Switched to POWER MODE');
+    // TODO: Show power features
+    
+  } else {
+    // Switch to Simple mode
+    currentMode = 'simple';
+    toggle.classList.remove('power');
+    simpleLabel.classList.add('active');
+    powerLabel.classList.remove('active');
+    
+    console.log('✨ Switched to SIMPLE MODE');
+    // TODO: Hide power features
+  }
+  
+  // Save preference
+  localStorage.setItem('nyayaMitraMode', currentMode);
+}
+
+// Load saved mode on page load
+window.addEventListener('DOMContentLoaded', function() {
+  const savedMode = localStorage.getItem('nyayaMitraMode');
+  if (savedMode === 'power') {
+    toggleMode(); // Switch to power mode if previously selected
+  }
+});
 </script>
 
 
