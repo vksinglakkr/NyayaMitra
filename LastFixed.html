@@ -1093,18 +1093,74 @@ body.simple-mode #profileAccordion {
     <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-4">
       
       <!-- Welcome Message -->
-      <div class="flex gap-3 items-start">
-        <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-white flex-shrink-0">
-          ⚖️
-        </div>
-        <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4 max-w-[85%]">
-          <p class="text-sm text-gray-800">
-            👋 Namaste! I'm <strong>NyayaMitra</strong>, your AI legal assistant.<br><br>
-            Ask me anything about India's new criminal laws (BNS, BNSS, BSA).
-          </p>
-          <p class="text-xs text-gray-400 mt-2">Just now</p>
+<!-- Welcome Message -->
+<div class="flex gap-3 items-start">
+  <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-white flex-shrink-0">
+    ⚖️
+  </div>
+  <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4 max-w-[85%]">
+    <p class="text-sm text-gray-800">
+      👋 Namaste! I'm <strong>NyayaMitra</strong>, your AI legal assistant.<br><br>
+      Ask me anything about India's new criminal laws (BNS, BNSS, BSA).
+    </p>
+    <p class="text-xs text-gray-400 mt-2">Just now</p>
+  </div>
+</div>
+
+<!-- Quick Start Examples -->
+<div class="px-2">
+  <p class="text-xs text-gray-500 mb-2 font-semibold">✨ Try asking:</p>
+  
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+    <!-- Example 1 -->
+    <button onclick="askQuickQuestion('How to file an FIR online?')" 
+            class="text-left p-3 bg-white hover:bg-purple-50 border-2 border-purple-200 rounded-xl transition group">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">📋</span>
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-purple-700">How to file an FIR online?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Filing & procedures</p>
         </div>
       </div>
+    </button>
+    
+    <!-- Example 2 -->
+    <button onclick="askQuickQuestion('What are my bail rights under new law?')" 
+            class="text-left p-3 bg-white hover:bg-blue-50 border-2 border-blue-200 rounded-xl transition group">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">🔐</span>
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-blue-700">What are my bail rights?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Arrest & bail</p>
+        </div>
+      </div>
+    </button>
+    
+    <!-- Example 3 -->
+    <button onclick="askQuickQuestion('How to report cyber crime and fraud?')" 
+            class="text-left p-3 bg-white hover:bg-green-50 border-2 border-green-200 rounded-xl transition group">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">💻</span>
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-green-700">How to report cyber crime?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Online safety</p>
+        </div>
+      </div>
+    </button>
+    
+    <!-- Example 4 -->
+    <button onclick="askQuickQuestion('What is the difference between BNS and IPC?')" 
+            class="text-left p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-xl transition group">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">⚖️</span>
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">BNS vs IPC difference?</p>
+          <p class="text-xs text-gray-500 mt-0.5">New vs old laws</p>
+        </div>
+      </div>
+    </button>
+  </div>
+</div>
 
     </div>
 
@@ -3764,11 +3820,72 @@ function clearChatHistory() {
     </div>
   `;
   
-  chatMessages.appendChild(welcomeDiv);
-  
-  console.log('✅ Chat history cleared');
-}
+chatMessages.appendChild(welcomeDiv);
 
+// Add quick examples back
+const examplesHTML = `
+<div class="px-2">
+  <p class="text-xs text-gray-500 mb-2 font-semibold">✨ Try asking:</p>
+  
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+    <button onclick="askQuickQuestion('How to file an FIR online?')" 
+            class="text-left p-3 bg-white hover:bg-purple-50 border-2 border-purple-200 rounded-xl transition group">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">📋</span>
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-purple-700">How to file an FIR online?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Filing & procedures</p>
+        </div>
+      </div>
+    </button>
+    
+    <button onclick="askQuickQuestion('What are my bail rights under new law?')" 
+            class="text-left p-3 bg-white hover:bg-blue-50 border-2 border-blue-200 rounded-xl transition group">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">🔐</span>
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-blue-700">What are my bail rights?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Arrest & bail</p>
+        </div>
+      </div>
+    </button>
+    
+    <button onclick="askQuickQuestion('How to report cyber crime and fraud?')" 
+            class="text-left p-3 bg-white hover:bg-green-50 border-2 border-green-200 rounded-xl transition group">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">💻</span>
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-green-700">How to report cyber crime?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Online safety</p>
+        </div>
+      </div>
+    </button>
+    
+    <button onclick="askQuickQuestion('What is the difference between BNS and IPC?')" 
+            class="text-left p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-xl transition group">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">⚖️</span>
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">BNS vs IPC difference?</p>
+          <p class="text-xs text-gray-500 mt-0.5">New vs old laws</p>
+        </div>
+      </div>
+    </button>
+  </div>
+</div>
+`;
+
+const examplesDiv = document.createElement('div');
+examplesDiv.innerHTML = examplesHTML;
+chatMessages.appendChild(examplesDiv.firstElementChild);
+
+console.log('✅ Chat history cleared');
+}
+// Quick Question Handler
+function askQuickQuestion(question) {
+  document.getElementById('chatInput').value = question;
+  sendChatMessage();
+}
 </script>
 
 
