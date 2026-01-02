@@ -371,6 +371,10 @@ body.simple-mode .glass-card {
   max-width: 85%;
   animation: slideInRight 0.3s ease-out;
 }
+/* Bot avatar with orange theme */
+.chat-bot-avatar {
+  background: linear-gradient(to bottom right, #f97316, #f59e0b) !important;
+}
 
 .chat-bubble-bot {
   background: white;
@@ -1111,8 +1115,7 @@ body.simple-mode .glass-card {
       <!-- Welcome Message -->
 <!-- Welcome Message -->
 <div class="flex gap-3 items-start">
-<div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full flex items-center justify-center text-white flex-shrink-0">
-    ⚖️
+<div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full flex items-center justify-center text-white flex-shrink-0 chat-bot-avatar">    ⚖️
   </div>
   <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4 max-w-[85%]">
     <p class="text-sm text-gray-800">
@@ -1129,12 +1132,12 @@ body.simple-mode .glass-card {
   
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
     <!-- Example 1 -->
-    <button onclick="askQuickQuestion('How to file an FIR online?')" 
-            class="text-left p-3 bg-white hover:bg-purple-50 border-2 border-purple-200 rounded-xl transition group">
-      <div class="flex items-start gap-2">
+<button onclick="askQuickQuestion('How to file an FIR online?')" 
+        class="text-left p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-xl transition group">
+  <div class="flex items-start gap-2">
         <span class="text-lg">📋</span>
         <div class="flex-1">
-          <p class="text-xs font-semibold text-gray-900 group-hover:text-purple-700">How to file an FIR online?</p>
+            <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">How to file an FIR online?</p>
           <p class="text-xs text-gray-500 mt-0.5">Filing & procedures</p>
         </div>
       </div>
@@ -1142,11 +1145,11 @@ body.simple-mode .glass-card {
     
     <!-- Example 2 -->
     <button onclick="askQuickQuestion('What are my bail rights under new law?')" 
-            class="text-left p-3 bg-white hover:bg-blue-50 border-2 border-blue-200 rounded-xl transition group">
+            class="text-left p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-xl transition group">
       <div class="flex items-start gap-2">
         <span class="text-lg">🔐</span>
         <div class="flex-1">
-          <p class="text-xs font-semibold text-gray-900 group-hover:text-blue-700">What are my bail rights?</p>
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">What are my bail rights?</p>
           <p class="text-xs text-gray-500 mt-0.5">Arrest & bail</p>
         </div>
       </div>
@@ -1154,11 +1157,11 @@ body.simple-mode .glass-card {
     
     <!-- Example 3 -->
     <button onclick="askQuickQuestion('How to report cyber crime and fraud?')" 
-            class="text-left p-3 bg-white hover:bg-green-50 border-2 border-green-200 rounded-xl transition group">
+            class="text-left p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-xl transition group">
       <div class="flex items-start gap-2">
         <span class="text-lg">💻</span>
         <div class="flex-1">
-          <p class="text-xs font-semibold text-gray-900 group-hover:text-green-700">How to report cyber crime?</p>
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">How to report cyber crime?</p>
           <p class="text-xs text-gray-500 mt-0.5">Online safety</p>
         </div>
       </div>
@@ -1190,10 +1193,9 @@ body.simple-mode .glass-card {
           class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-full outline-none focus:border-purple-500"
           onkeypress="if(event.key==='Enter') sendChatMessage()"
         >
-        <button 
-          onclick="sendChatMessage()" 
-          class="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-full font-medium hover:from-purple-700 hover:to-indigo-700 transition flex items-center gap-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<button 
+  onclick="sendChatMessage()" 
+  class="px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-full font-medium hover:from-orange-600 hover:to-amber-700 transition flex items-center gap-2">          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
           </svg>
           Send
