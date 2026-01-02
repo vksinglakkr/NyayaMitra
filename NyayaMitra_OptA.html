@@ -273,6 +273,25 @@
       background: linear-gradient(135deg, #dc2626, #ef4444) !important;
       animation: pulseRec 1.5s ease-in-out infinite;
     }
+    /* ========================================
+       SIMPLE MODE vs POWER MODE CSS
+       ======================================== */
+    
+    /* Simple Mode - Hide form, show chat */
+    body.simple-mode .glass-card {
+      display: none !important;
+    }
+    
+    body.simple-mode #chatInterface {
+      display: flex !important;
+    }
+    
+    /* Power Mode - Show form, hide chat */
+    body:not(.simple-mode) #chatInterface {
+      display: none !important;
+    }
+    
+    /* ======================================== */
     /* iOS-Style Toggle Switch */
 .mode-toggle-container {
   display: flex;
