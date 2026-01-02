@@ -3288,7 +3288,19 @@ function sendChatMessage() {
   const input = document.getElementById('chatInput');
   const question = input.value.trim();
   
-  if (!question) return;
+  if (!question) {
+    // Shake animation for empty input
+    input.classList.add('border-red-400');
+    input.placeholder = '⚠️ Please type a question...';
+    input.focus();
+    
+    setTimeout(() => {
+      input.classList.remove('border-red-400');
+      input.placeholder = '💬 Type your question...';
+    }, 2000);
+    
+    return;
+  }
   
   // Add user message to chat
   addChatMessage(question, 'user');
@@ -3296,8 +3308,9 @@ function sendChatMessage() {
   // Clear input
   input.value = '';
   
-  // Set current question for API call
-  currentQuestion = question;
+// Set current question for API call
+currentQuestion = question;
+lastQuestion = question; // Track for retry
   
   // Show typing indicator
   addTypingIndicator();
@@ -3367,7 +3380,7 @@ function addChatMessage(text, type) {
 }
   
 chatMessages.appendChild(messageDiv);
-chatMessages.scrollTop = chatMessages.scrollHeight;
+smoothScrollToBottom();
 updateChatMessageCount();
 return messageDiv; // Return the created element
 }
@@ -3384,14 +3397,13 @@ function updateChatMessageCount() {
     headerStatus.textContent = 'AI Legal Assistant • Online';
   }
 }
-
 function addTypingIndicator() {
   const chatMessages = document.getElementById('chatMessages');
   const typingDiv = document.createElement('div');
   typingDiv.id = 'typingIndicator';
   typingDiv.className = 'flex gap-3 items-start';
   typingDiv.innerHTML = `
-    <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-white flex-shrink-0">
+    <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-white flex-shrink-0 animate-pulse">
       ⚖️
     </div>
     <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4">
@@ -3400,10 +3412,19 @@ function addTypingIndicator() {
         <div class="typing-dot"></div>
         <div class="typing-dot"></div>
       </div>
+      <p class="text-xs text-gray-400 mt-2">NyayaMitra is thinking...</p>
     </div>
   `;
   chatMessages.appendChild(typingDiv);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+  smoothScrollToBottom();
+}
+// Smooth Scroll to Bottom
+function smoothScrollToBottom() {
+  const chatMessages = document.getElementById('chatMessages');
+  chatMessages.scrollTo({
+    top: chatMessages.scrollHeight,
+    behavior: 'smooth'
+  });
 }
 
 function removeTypingIndicator() {
@@ -3464,13 +3485,56 @@ setTimeout(() => {
   }
 }, 500);
     
-  } catch (error) {
-    console.error('Error:', error);
-    removeTypingIndicator();
-    addChatMessage('❌ Sorry, I encountered an error. Please try again.', 'bot');
+} catch (error) {
+  console.error('Error:', error);
+  removeTypingIndicator();
+  
+  // Determine error type
+  let errorMessage = '';
+  let showRetry = false;
+  
+  if (!navigator.onLine) {
+    errorMessage = '🔌 <strong>No internet connection</strong><br><br>Please check your network and try again.';
+    showRetry = true;
+  } else if (error.message.includes('HTTP')) {
+    errorMessage = '⚠️ <strong>Server error</strong><br><br>The AI service is temporarily unavailable. Please try again in a moment.';
+    showRetry = true;
+  } else {
+    errorMessage = '❌ <strong>Something went wrong</strong><br><br>Please try asking your question again.';
+    showRetry = true;
+  }
+  
+  // Add error message
+  const errorDiv = addChatMessage(errorMessage, 'bot');
+  
+  // Add retry button if applicable
+  if (showRetry && errorDiv) {
+    const retryButton = document.createElement('div');
+    retryButton.className = 'mt-3 pt-3 border-t border-gray-100';
+    retryButton.innerHTML = `
+      <button onclick="retryLastQuestion()" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium transition flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        Retry
+      </button>
+    `;
+    const botMessage = errorDiv.querySelector('.chat-bubble-bot');
+    if (botMessage) {
+      botMessage.appendChild(retryButton);
+    }
   }
 }
+}
+// Retry Last Question
+let lastQuestion = '';
 
+function retryLastQuestion() {
+  if (lastQuestion) {
+    document.getElementById('chatInput').value = lastQuestion;
+    sendChatMessage();
+  }
+}
 // Utility functions
 function escapeHtml(text) {
   const div = document.createElement('div');
