@@ -278,12 +278,14 @@ body.simple-mode .glass-card {
   display: none !important;
 }
 
+/* Show chat ONLY in simple mode */
 body.simple-mode #chatInterface {
   display: flex !important;
-  position: fixed !important;
-  inset: 0 !important;
-  height: 100vh !important;
-  z-index: 1000 !important;
+}
+
+/* Ensure chat is hidden in power mode */
+body:not(.simple-mode) #chatInterface {
+  display: none !important;
 }
 
 
@@ -362,13 +364,13 @@ body.simple-mode #profileAccordion {
   display: none;
 }
 
-/* Chat Interface Styles */
+/* Chat interface - hidden by default */
 #chatInterface {
   display: none;
-}
-
-#chatInterface.active {
-  display: flex;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: linear-gradient(to bottom right, #f3e8ff, #dbeafe);
 }
 
 .chat-bubble-user {
@@ -3370,10 +3372,13 @@ if (currentMode === 'simple') {
   powerLabel.classList.add('active');
   document.body.classList.remove('simple-mode');
   
-// Chat will be hidden by CSS when simple-mode class is removed
-// No need to manipulate 'active' class
+  // Explicitly hide chat interface
+  const chatInterface = document.getElementById('chatInterface');
+  if (chatInterface) {
+    chatInterface.style.display = 'none';
+  }
   
-  console.log('🔥 Switched to POWER MODE');
+  console.log('🔥 Switched to POWER MODE - Chat hidden');
     
 } else {
   // Switch to Simple mode
@@ -3386,10 +3391,13 @@ if (currentMode === 'simple') {
   // Auto-select custom query type in simple mode
   selectQueryType('custom');
   
-// Chat will be shown by CSS via body.simple-mode
-// No need to add 'active' class
+  // Explicitly show chat interface
+  const chatInterface = document.getElementById('chatInterface');
+  if (chatInterface) {
+    chatInterface.style.display = 'flex';
+  }
   
-  console.log('✨ Switched to SIMPLE MODE - Chat interface opened');
+  console.log('✨ Switched to SIMPLE MODE - Chat visible');
 }
   
   // Save preference
@@ -3423,26 +3431,31 @@ window.addEventListener('DOMContentLoaded', function() {
     // User previously selected power mode
     // Do nothing - page loads in power mode naturally
     console.log('💡 Loading in saved POWER MODE');
-  } else {
-    // Default to simple mode
-    document.body.classList.add('simple-mode');
-    
-    // Set toggle UI to simple mode
-    const toggle = document.getElementById('modeToggle');
-    const simpleLabel = document.getElementById('simpleModeLabel');
-    const powerLabel = document.getElementById('powerModeLabel');
-    
-    if (toggle) {
-      toggle.classList.remove('power');
-      simpleLabel.classList.add('active');
-      powerLabel.classList.remove('active');
-    }
-    
-// Auto-open chat in simple mode (CSS handles display via body.simple-mode)
-setTimeout(() => {
-  console.log('✨ Loading in SIMPLE MODE with chat');
-}, 300);
+} else {
+  // Default to simple mode
+  document.body.classList.add('simple-mode');
+  currentMode = 'simple';
+  
+  // Set toggle UI to simple mode
+  const toggle = document.getElementById('modeToggle');
+  const simpleLabel = document.getElementById('simpleModeLabel');
+  const powerLabel = document.getElementById('powerModeLabel');
+  
+  if (toggle) {
+    toggle.classList.remove('power');
+    simpleLabel.classList.add('active');
+    powerLabel.classList.remove('active');
   }
+  
+  // Explicitly show chat in simple mode
+  setTimeout(() => {
+    const chatInterface = document.getElementById('chatInterface');
+    if (chatInterface) {
+      chatInterface.style.display = 'flex';
+    }
+    console.log('✨ Loading in SIMPLE MODE with chat visible');
+  }, 300);
+}
 });
 // Chat Interface Functions
 function sendChatMessage() {
