@@ -1069,31 +1069,44 @@ body.simple-mode .glass-card {
   
   <!-- Chat Container -->
   <div class="h-full max-w-4xl mx-auto flex flex-col">
-    
-<!-- Chat Header -->
-<div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 shadow-lg flex items-center justify-between">
-  <div class="flex items-center gap-3">
-    <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-2xl">
-      ⚖️
+    <!-- Chat Header -->
+<div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg">
+  <!-- Top Row: Logo + Actions -->
+  <div class="flex items-center justify-between p-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-2xl">
+        ⚖️
+      </div>
+      <div>
+        <h2 class="font-bold text-lg">NyayaMitra</h2>
+        <p class="text-xs text-purple-100" id="chatHeaderStatus">AI Legal Assistant • Online</p>
+      </div>
     </div>
-<div>
-  <h2 class="font-bold text-lg">NyayaMitra</h2>
-  <p class="text-xs text-purple-100" id="chatHeaderStatus">AI Legal Assistant • Online</p>
-</div>
+    
+    <!-- Header Actions -->
+    <div class="flex items-center gap-2">
+      <button onclick="clearChatHistory()" class="hover:bg-white/20 p-2 rounded-full transition" title="Clear chat">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+        </svg>
+      </button>
+      <button onclick="closeChatInterface()" class="hover:bg-white/20 p-2 rounded-full transition" title="Switch to Power Mode">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
   </div>
   
-  <!-- Header Actions -->
-  <div class="flex items-center gap-2">
-    <button onclick="clearChatHistory()" class="hover:bg-white/20 p-2 rounded-full transition" title="Clear chat">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-      </svg>
-    </button>
-    <button onclick="closeChatInterface()" class="hover:bg-white/20 p-2 rounded-full transition" title="Back to form">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-      </svg>
-    </button>
+  <!-- Bottom Row: Mode Toggle -->
+  <div class="flex items-center justify-center px-4 pb-3 pt-2 border-t border-white/20">
+    <div class="mode-toggle-container" style="background: rgba(255,255,255,0.1);">
+      <span class="mode-label active" style="color: white;" id="simpleModeLabel">💬 Simple Chat</span>
+      <div class="mode-toggle" id="modeToggle" onclick="toggleMode()">
+        <div class="mode-toggle-slider"></div>
+      </div>
+      <span class="mode-label" style="color: rgba(255,255,255,0.7);" id="powerModeLabel">⚡ Full Features</span>
+    </div>
   </div>
 </div>
 
