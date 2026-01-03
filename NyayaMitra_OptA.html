@@ -1071,10 +1071,10 @@ body.simple-mode .glass-card {
 <!-- CHAT INTERFACE FOR SIMPLE MODE -->
 <div id="chatInterface" class="hidden fixed inset-0" style="z-index: 1000; background: radial-gradient(ellipse at top, #1e3a8a, #0f172a);">
   <!-- Chat Container -->
-<div class="h-full max-w-5xl mx-auto flex flex-col p-4">
+<div class="h-full max-w-5xl mx-auto flex flex-col p-2 md:p-4">
   
 <!-- Chat Header -->
-<div class="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col" style="height: 100%;">
+<div class="bg-white rounded-xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col" style="height: 100%; max-height: 100%;">
 <div class="bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 shadow-lg" style="border-bottom: 3px solid #fb923c;">
   <!-- Top Row: Logo + Actions -->
 <div class="flex items-center justify-between p-4">
@@ -1111,7 +1111,7 @@ body.simple-mode .glass-card {
 </div>
 
     <!-- Chat Messages Area -->
-<div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-4" style="background: #fefefe;">      
+<div id="chatMessages" class="flex-1 overflow-y-auto p-2 md:p-4 space-y-3 md:space-y-4" style="background: #fefefe;">
       <!-- Welcome Message -->
 <!-- Welcome Message -->
 <div class="flex gap-3 items-start">
@@ -1133,7 +1133,7 @@ body.simple-mode .glass-card {
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
     <!-- Example 1 -->
 <button onclick="askQuickQuestion('How to file an FIR online?')" 
-        class="text-left p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-xl transition group">
+class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
   <div class="flex items-start gap-2">
         <span class="text-lg">📋</span>
         <div class="flex-1">
@@ -1145,7 +1145,7 @@ body.simple-mode .glass-card {
     
     <!-- Example 2 -->
     <button onclick="askQuickQuestion('What are my bail rights under new law?')" 
-            class="text-left p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-xl transition group">
+class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
       <div class="flex items-start gap-2">
         <span class="text-lg">🔐</span>
         <div class="flex-1">
@@ -1157,7 +1157,7 @@ body.simple-mode .glass-card {
     
     <!-- Example 3 -->
     <button onclick="askQuickQuestion('How to report cyber crime and fraud?')" 
-            class="text-left p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-xl transition group">
+class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
       <div class="flex items-start gap-2">
         <span class="text-lg">💻</span>
         <div class="flex-1">
@@ -1169,7 +1169,7 @@ body.simple-mode .glass-card {
     
     <!-- Example 4 -->
     <button onclick="askQuickQuestion('What is the difference between BNS and IPC?')" 
-            class="text-left p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-xl transition group">
+class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
       <div class="flex items-start gap-2">
         <span class="text-lg">⚖️</span>
         <div class="flex-1">
@@ -1184,18 +1184,19 @@ body.simple-mode .glass-card {
     </div>
 
     <!-- Chat Input Area -->
-    <div class="bg-white border-t border-gray-200 p-4">
-      <div class="flex gap-2 mb-2">
-        <input 
-          type="text" 
-          id="chatInput" 
-          placeholder="💬 Type your question..."
-class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-full outline-none focus:border-orange-500"
+  <div class="bg-white border-t border-gray-200 p-2 md:p-4 shadow-lg">
+  <div class="flex gap-1 md:gap-2 mb-2">
+  
+<input 
+  type="text" 
+  id="chatInput" 
+  placeholder="💬 Type your question..."
+  class="flex-1 px-3 md:px-4 py-2 md:py-3 border-2 border-gray-300 rounded-full outline-none focus:border-orange-500 text-sm md:text-base"
           onkeypress="if(event.key==='Enter') sendChatMessage()"
         >
 <button 
   onclick="sendChatMessage()" 
-  class="px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-full font-medium hover:from-orange-600 hover:to-amber-700 transition flex items-center gap-2">          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  class="px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-full font-medium hover:from-orange-600 hover:to-amber-700 transition flex items-center gap-1 md:gap-2 text-sm md:text-base">  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
           </svg>
           Send
@@ -3942,7 +3943,7 @@ const examplesHTML = `
     </button>
     
     <button onclick="askQuickQuestion('What is the difference between BNS and IPC?')" 
-            class="text-left p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-xl transition group">
+            class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
       <div class="flex items-start gap-2">
         <span class="text-lg">⚖️</span>
         <div class="flex-1">
