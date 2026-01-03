@@ -956,8 +956,9 @@ body.simple-mode .glass-card {
 <!-- Compact Query Type Summary (hidden initially) -->
 <div id="queryTypeSummary"
      class="hidden mt-2 p-3 bg-amber-50 border-2 border-amber-300 rounded-xl
-            flex items-center justify-between cursor-pointer power-mode-only"
-     onclick="expandQueryType()">
+            flex items-center justify-between cursor-pointer"
+     onclick="expandQueryType()"
+     style="display: none;">
   <div class="text-sm font-bold text-amber-900">
     📌 Mode:
     <span id="queryTypeSummaryText">Ask Your Own Question</span>
