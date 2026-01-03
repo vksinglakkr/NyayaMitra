@@ -1433,7 +1433,12 @@ document.addEventListener('DOMContentLoaded', function () {
     defaultCard.classList.add('selected');
   }
 
-  console.log('✅ Default profile initialized silently: General Citizen');
+console.log('✅ Default profile initialized silently: General Citizen');
+  
+  // Initialize query type to custom (collapsed state)
+  setTimeout(() => {
+    selectQueryType('custom');
+  }, 100);
 });
     
     const WEBHOOK_URL = 'https://n8n-workflow-test.duckdns.org/webhook/chatbot';
