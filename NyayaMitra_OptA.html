@@ -3096,10 +3096,10 @@ function expandQueryType() {
   const selector = document.querySelector('.query-type-selector');
   const summary = document.getElementById('queryTypeSummary');
 
-  if (selector && summary) {
-    selector.classList.remove('hidden');
-    summary.classList.add('hidden');
-  }
+if (selector && summary) {
+  selector.style.display = 'block';
+  summary.style.display = 'none';
+}
 
   // 🔹 FIX: Restore correct radio & visual selection
   document.querySelectorAll('.radio-option')
