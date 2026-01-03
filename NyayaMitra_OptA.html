@@ -2674,11 +2674,11 @@ function selectQueryType(type) {
       ready: 'Ready-Made Questions'
     };
 
-    if (selector && summary && text) {
-      selector.classList.add('hidden');
-      summary.classList.remove('hidden');
-      text.textContent = labels[type];
-    }
+if (selector && summary && text) {
+  selector.style.display = 'none';
+  summary.style.display = 'flex';
+  text.textContent = labels[type];
+}
   }, 300);
 }
 
