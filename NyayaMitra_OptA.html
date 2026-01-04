@@ -974,14 +974,15 @@ body.simple-mode .glass-card {
         <!-- CUSTOM QUESTION DIV -->
         <div id="customQuestionDiv" class="mb-8 fade-in">
           <div class="relative">
-            <textarea
-              id="userInput"
-              rows="3"
-              class="w-full rounded-2xl border-4 border-orange-400 p-4 pb-12 text-gray-900 bg-gradient-to-br from-white to-orange-50 shadow-2xl resize-none focus:border-orange-500 focus:ring-4 focus:ring-orange-200 transition-all duration-300"
-              placeholder="Type your question here... (e.g., What are my rights during arrest?)"
-              oninput="showAutocompleteSuggestions()"
-              onfocus="showAutocompleteSuggestions()"
-            ></textarea>
+<input
+  type="text"
+  id="userInput"
+  class="w-full rounded-2xl border-4 border-orange-400 p-4 text-gray-900 bg-gradient-to-br from-white to-orange-50 shadow-2xl focus:border-orange-500 focus:ring-4 focus:ring-orange-200 transition-all duration-300 outline-none"
+  placeholder="Type your question here... (e.g., What are my rights during arrest?)"
+  oninput="showAutocompleteSuggestions()"
+  onfocus="showAutocompleteSuggestions()"
+  onkeypress="if(event.key==='Enter') getAnswer()"
+/>
             <button
               id="voiceBtn"
               class="mic-btn absolute bottom-3 right-3 text-orange-500 hover:text-orange-700 transition-all bg-white rounded-full p-3 shadow-lg border-2 border-orange-300"
