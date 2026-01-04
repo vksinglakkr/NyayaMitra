@@ -973,26 +973,43 @@ body.simple-mode .glass-card {
         
         <!-- CUSTOM QUESTION DIV -->
 <div id="customQuestionDiv" class="mb-8 fade-in">
-  <!-- Input Row: Input + Mic Button -->
-  <div class="flex gap-2 mb-2">
-    <input
-      type="text"
-      id="userInput"
-      class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-full outline-none focus:border-orange-500 transition-all duration-300 text-base"
-      placeholder="💬 Type your question..."
-      oninput="showAutocompleteSuggestions()"
-      onfocus="showAutocompleteSuggestions()"
-      onkeypress="if(event.key==='Enter') getAnswer()"
-    />
-    <button
-      id="voiceBtn"
-      class="px-4 py-3 bg-white border-2 border-gray-300 text-orange-500 hover:text-orange-700 hover:border-orange-500 rounded-full transition-all"
-      title="Click to speak"
-    >
+  <!-- Input Row: Input + Mic + Send Button -->
+  <div class="flex gap-1 md:gap-2 mb-2">
+<input
+  type="text"
+  id="userInput"
+  class="flex-1 px-3 md:px-4 py-2 md:py-3 border-2 border-gray-300 rounded-full outline-none focus:border-orange-500 transition-all duration-300 text-sm md:text-base"
+  placeholder="💬 Type your question..."
+  oninput="showAutocompleteSuggestions()"
+  onfocus="showAutocompleteSuggestions()"
+  onkeypress="if(event.key==='Enter') getAnswer()"
+/>
+<button
+  id="voiceBtn"
+  class="px-3 md:px-4 py-3 bg-white border-2 border-gray-300 text-orange-500 hover:text-orange-700 hover:border-orange-500 rounded-full transition-all"
+  title="Click to speak"
+>
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
       </svg>
     </button>
+<button
+  onclick="getAnswer()"
+  class="px-4 md:px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-full font-medium hover:from-orange-600 hover:to-amber-700 transition flex items-center gap-1 md:gap-2 text-sm md:text-base"
+  title="Get Answer"
+>
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+  </svg>
+  <span class="hidden sm:inline">Send</span>
+  <span class="sm:hidden">📤</span>
+</button>
+  </div>
+  
+  <!-- Helper Text -->
+  <div class="flex items-center justify-between text-xs text-gray-500 mb-2">
+    <span>Press Enter to send</span>
+    <span id="inputStatus"></span>
   </div>
   
   <!-- Autocomplete Suggestions Box -->
@@ -1045,12 +1062,13 @@ body.simple-mode .glass-card {
     </select>
   </div>
 
-  <button id="submitBtn"
-          class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600
-                 text-white font-bold py-3 rounded-xl shadow-lg
-                 hover:from-orange-600 hover:to-orange-700 transition">
-    ⚡ Get Answer
-  </button>
+<button id="submitBtn"
+        class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600
+               text-white font-bold py-3 rounded-xl shadow-lg
+               hover:from-orange-600 hover:to-orange-700 transition"
+        style="display: none;">
+  ⚡ Get Answer
+</button>
 
 </div>
       </div>
@@ -2650,6 +2668,9 @@ function selectQueryType(type) {
     document.getElementById('customCard')?.classList.add('selected');
     document.getElementById('customQuestionDiv').style.display = 'block';
     document.getElementById('readyQuestionDiv').style.display = 'none';
+    // Hide Get Answer button (we have Send button in input)
+  const submitBtn = document.getElementById('submitBtn');
+  if (submitBtn) submitBtn.style.display = 'none';
 
     // 🔹 Refinement 2: Auto-focus cursor
    setTimeout(() => {
@@ -2663,7 +2684,9 @@ function selectQueryType(type) {
     document.getElementById('readyCard')?.classList.add('selected');
     document.getElementById('customQuestionDiv').style.display = 'none';
     document.getElementById('readyQuestionDiv').style.display = 'block';
-
+// Show Get Answer button (no Send button in ready-made)
+  const submitBtn = document.getElementById('submitBtn');
+  if (submitBtn) submitBtn.style.display = 'block';
     loadTopics(selectedUser);
     document.getElementById('topicSection').style.display = 'block';
   }
