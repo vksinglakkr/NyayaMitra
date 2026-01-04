@@ -804,61 +804,41 @@ body.simple-mode .glass-card {
 
 <div class="container-main w-full max-w-5xl glass-card rounded-xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col" style="height: calc(100vh - 1rem); max-height: calc(100vh - 1rem);">
     
-<div class="relative bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 p-3 md:p-6 pb-3 md:pb-4 header-glow">
-  <!-- Header Row: Logo + Title -->
-  <div class="flex items-start justify-between">
-
-    <!-- Haryana Govt Logo -->
-    <div class="flex items-start">
-      <img
-        src="images/haryana-logo.jpg"
-        alt="Government of Haryana"
-        class="h-10 md:h-14 w-auto"
-      />
-    </div>
-
-    <!-- Center Title -->
-    <div class="flex-1 text-center">
-      <div class="floating">
-       <h1 class="text-4xl md:text-6xl font-black gradient-text mb-1 md:mb-2 playfair tracking-tight">
-          NyayaMitra
-        </h1>
-       <p class="text-xl md:text-3xl font-bold text-orange-600 mb-1"
-           style="font-family: 'Noto Sans Devanagari', sans-serif;">
-          न्यायमित्र
-        </p>
+<div class="bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 shadow-lg" style="border-bottom: 3px solid #fb923c;">
+  <!-- Top Row: Logo + Title + Actions -->
+  <div class="flex items-center justify-between p-3 md:p-4">
+    <div class="flex items-center gap-2 md:gap-3">
+      <div class="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center text-xl md:text-2xl shadow-md">
+        ⚖️
       </div>
-
-     <p class="text-sm text-gray-600 font-semibold mb-2 tracking-wide">
-        AI Assistant for New Criminal Laws
-      </p>
-      
-      <!-- Mode Toggle -->
-  <div class="flex items-center justify-center px-4 pb-3 pt-2 border-t border-orange-200">
+      <div>
+        <h2 class="font-bold text-base md:text-lg text-gray-800">NyayaMitra • <span class="font-semibold">न्यायमित्र</span></h2>
+        <p class="text-xs text-gray-600 font-semibold">AI Assistant for New Criminal Laws</p>
+      </div>
+    </div>
+    
+    <!-- Spacer for mobile -->
+    <div class="w-2"></div>
+  </div>
+  
+  <!-- Bottom Row: Mode Toggle -->
+  <div class="flex items-center justify-center px-3 md:px-4 pb-3 pt-2 border-t border-orange-200">
     <div class="mode-toggle-container">
-      <span class="mode-label active" id="simpleModeLabel">💬 Simple Chat</span>
-      <div class="mode-toggle" id="modeToggle" onclick="toggleMode()">
+      <span class="mode-label" id="simpleModeLabel">💬 Simple Chat</span>
+      <div class="mode-toggle power" id="modeToggle" onclick="toggleMode()">
         <div class="mode-toggle-slider"></div>
       </div>
-      <span class="mode-label" id="powerModeLabel">⚡ Full Features</span>
+      <span class="mode-label active" id="powerModeLabel">⚡ Full Features</span>
     </div>
   </div>
-    </div>
+</div>
 
-    <!-- Right spacer (keeps title perfectly centered) -->
-    <div class="w-12 md:w-14"></div>
-
-  </div>
-
-  <!-- Laws Strip -->
-  <div class="w-full max-w-2xl mx-auto px-4 mt-2">
-    <div class="bg-white rounded-2xl border-3 border-orange-400 py-2 px-4 shadow-xl">
-      <h2 class="text-xs sm:text-sm font-black text-center bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent leading-tight">
-        Bharatiya Nyaya Sanhita • Bharatiya Nagarik Suraksha Sanhita • Bharatiya Sakshya Adhiniyam
-      </h2>
-    </div>
-  </div>
-
+<!-- Laws Info Strip (Below Header) -->
+<div class="bg-gradient-to-r from-orange-50 to-amber-50 border-b-2 border-orange-200 px-3 py-2">
+  <p class="text-xs text-center font-semibold text-orange-800">
+    <span class="hidden sm:inline">Bharatiya Nyaya Sanhita • Bharatiya Nagarik Suraksha Sanhita • Bharatiya Sakshya Adhiniyam</span>
+    <span class="sm:hidden">BNS • BNSS • BSA</span>
+  </p>
 </div>
 <!-- Simple Mode Profile Selector -->
 <div id="simpleProfileSelect" class="mb-4" style="display: none;">
