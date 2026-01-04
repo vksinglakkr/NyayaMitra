@@ -2668,6 +2668,9 @@ function selectQueryType(type) {
     document.getElementById('customCard')?.classList.add('selected');
     document.getElementById('customQuestionDiv').style.display = 'block';
     document.getElementById('readyQuestionDiv').style.display = 'none';
+    // Hide Get Answer button (we have Send button in input)
+  const submitBtn = document.getElementById('submitBtn');
+  if (submitBtn) submitBtn.style.display = 'none';
 
     // 🔹 Refinement 2: Auto-focus cursor
    setTimeout(() => {
@@ -2681,7 +2684,9 @@ function selectQueryType(type) {
     document.getElementById('readyCard')?.classList.add('selected');
     document.getElementById('customQuestionDiv').style.display = 'none';
     document.getElementById('readyQuestionDiv').style.display = 'block';
-
+// Show Get Answer button (no Send button in ready-made)
+  const submitBtn = document.getElementById('submitBtn');
+  if (submitBtn) submitBtn.style.display = 'block';
     loadTopics(selectedUser);
     document.getElementById('topicSection').style.display = 'block';
   }
