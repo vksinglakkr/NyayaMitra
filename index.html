@@ -972,33 +972,34 @@ body.simple-mode .glass-card {
       <div id="questionSection">
         
         <!-- CUSTOM QUESTION DIV -->
-        <div id="customQuestionDiv" class="mb-8 fade-in">
-          <div class="relative">
-<input
-  type="text"
-  id="userInput"
-  class="w-full rounded-2xl border-4 border-orange-400 p-4 text-gray-900 bg-gradient-to-br from-white to-orange-50 shadow-2xl focus:border-orange-500 focus:ring-4 focus:ring-orange-200 transition-all duration-300 outline-none"
-  placeholder="Type your question here... (e.g., What are my rights during arrest?)"
-  oninput="showAutocompleteSuggestions()"
-  onfocus="showAutocompleteSuggestions()"
-  onkeypress="if(event.key==='Enter') getAnswer()"
-/>
-            <button
-              id="voiceBtn"
-              class="mic-btn absolute bottom-3 right-3 text-orange-500 hover:text-orange-700 transition-all bg-white rounded-full p-3 shadow-lg border-2 border-orange-300"
-              title="Click to speak"
-            >
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
-              </svg>
-            </button>
-          </div>
-          
-          <!-- Autocomplete Suggestions Box -->
-          <div id="autocompleteSuggestions" class="hidden mt-2 bg-white border-2 border-orange-300 rounded-xl shadow-lg max-h-60 overflow-y-auto">
-            <!-- Suggestions will be added here dynamically -->
-          </div>
-        </div>
+<div id="customQuestionDiv" class="mb-8 fade-in">
+  <!-- Input Row: Input + Mic Button -->
+  <div class="flex gap-2 mb-2">
+    <input
+      type="text"
+      id="userInput"
+      class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-full outline-none focus:border-orange-500 transition-all duration-300 text-base"
+      placeholder="💬 Type your question..."
+      oninput="showAutocompleteSuggestions()"
+      onfocus="showAutocompleteSuggestions()"
+      onkeypress="if(event.key==='Enter') getAnswer()"
+    />
+    <button
+      id="voiceBtn"
+      class="px-4 py-3 bg-white border-2 border-gray-300 text-orange-500 hover:text-orange-700 hover:border-orange-500 rounded-full transition-all"
+      title="Click to speak"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+      </svg>
+    </button>
+  </div>
+  
+  <!-- Autocomplete Suggestions Box -->
+  <div id="autocompleteSuggestions" class="hidden mt-2 bg-white border-2 border-orange-300 rounded-xl shadow-lg max-h-60 overflow-y-auto">
+    <!-- Suggestions will be added here dynamically -->
+  </div>
+</div>
 
         <!-- READY QUESTIONS DIV -->
         <div id="readyQuestionDiv" style="display: none;" class="mb-8 fade-in">
