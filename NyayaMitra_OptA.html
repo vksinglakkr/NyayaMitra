@@ -800,9 +800,9 @@ body.simple-mode .glass-card {
 
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-2 md:p-4">
+<body class="min-h-screen flex flex-col items-center p-2 md:p-4">
 
-  <div class="container-main w-full max-w-5xl glass-card rounded-3xl shadow-2xl overflow-hidden">
+<div class="container-main w-full max-w-5xl glass-card rounded-xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col" style="height: calc(100vh - 1rem); max-height: calc(100vh - 1rem);">
     
 <div class="relative bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 p-3 md:p-6 pb-3 md:pb-4 header-glow">
   <!-- Header Row: Logo + Title -->
@@ -876,7 +876,7 @@ body.simple-mode .glass-card {
     </div>
   </div>
 </div>
-   <div class="p-2 md:p-3">
+ <div class="p-2 md:p-3 flex-1 overflow-y-auto">
       <!-- ALWAYS VISIBLE: Who are you? -->
       <div class="mb-4" id="profileAccordion" class="power-mode-only">
 <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-2xl p-4 hidden" id="profileSelector">
