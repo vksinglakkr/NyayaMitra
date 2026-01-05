@@ -802,8 +802,8 @@ body.simple-mode .glass-card {
 </head>
 <body class="min-h-screen flex flex-col items-center p-2 md:p-4">
 
-<div class="container-main w-full max-w-5xl glass-card rounded-xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col" style="height: calc(100vh - 1rem); max-height: calc(100vh - 1rem);">    
-<div class="bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 shadow-lg" style="border-bottom: 3px solid #fb923c;">
+<div class="container-main w-full max-w-3xl md:max-w-4xl glass-card rounded-xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col" style="height: calc(100vh - 1rem); max-height: calc(100vh - 1rem);">
+  <div class="bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 shadow-lg" style="border-bottom: 3px solid #fb923c;">
   <!-- Top Row: Logo + Title + Actions -->
   <div class="flex items-center justify-between p-3 md:p-4">
     <div class="flex items-center gap-2 md:gap-3">
@@ -957,7 +957,7 @@ body.simple-mode .glass-card {
         <div id="readyQuestionDiv" style="display: none;" class="mb-8 fade-in">
           
           <!-- Step 1: WHAT TOPIC? (Profile already selected at top) -->
-          <div class="mb-6" id="topicSection" style="display: none;">
+          <div class="mb-2 mt-3" id="topicSection" style="display: none;">
             <label class="block text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
               <span class="bg-orange-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">1</span>
               📚 What do you want to know about?
@@ -969,8 +969,8 @@ body.simple-mode .glass-card {
           </div>
           
           <!-- Step 2: SELECT YOUR QUESTION -->
-          <div class="mb-6" id="questionSelectSection" style="display: none;">
-            <label class="block text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <div class="mb-2" id="questionSelectSection" style="display: none;">
+            <label class="block text-lg font-bold text-gray-800 mb-2 flex items-center gap-2">
               <span class="bg-orange-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">2</span>
               ❓ Select Your Question
             </label>
@@ -985,7 +985,7 @@ body.simple-mode .glass-card {
 
 <!-- Language Selection - Before Submit Button -->
 <!-- Language + Submit (Inline Utility Bar) -->
-<div class="flex items-center justify-between gap-3 mt-4">
+<div class="flex items-center justify-between gap-3">
 
   <div class="flex items-center gap-2 text-sm text-gray-600">
     <span>Language:</span>
@@ -1418,28 +1418,44 @@ class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-2
     }
 
 document.addEventListener('DOMContentLoaded', function () {
-
   // Show default hint
   const hintEl = document.getElementById('profileHint');
   if (hintEl) {
     hintEl.textContent = 'Default profile: General Citizen (you can change it)';
   }
-
   // Set default selected user silently
   selectedUser = 'citizen';
-
   // Highlight default card visually
   const defaultCard = document.getElementById('userCitizenMain');
   if (defaultCard) {
     defaultCard.classList.add('selected');
   }
-
-console.log('✅ Default profile initialized silently: General Citizen');
+  console.log('✅ Default profile initialized silently: General Citizen');
   
-  // Initialize query type to custom (collapsed state)
   setTimeout(() => {
-    selectQueryType('custom');
+    selectQueryType('ready');
+    
+    // Auto-select appropriate topic based on user type
+    autoSelectTopicForUserType();
   }, 100);
+  
+  // ===== Watch for profile card clicks =====
+  const profileCards = document.querySelectorAll('[id^="user"][id$="Main"]');
+  profileCards.forEach(card => {
+    card.addEventListener('click', function() {
+      console.log('👤 Profile card clicked');
+      // Wait for selectedUser to update
+      setTimeout(() => {
+        console.log('👤 Current selectedUser:', selectedUser);
+        // Only auto-select if in ready-made mode
+        const readyMadeDiv = document.getElementById('readyMadeDiv');
+        if (readyMadeDiv && readyMadeDiv.style.display !== 'none') {
+          autoSelectTopicForUserType();
+        }
+      }, 100);
+    });
+  });
+  
 });
     
     const WEBHOOK_URL = 'https://n8n-workflow-test.duckdns.org/webhook/chatbot';
@@ -2754,7 +2770,10 @@ function selectMainUser(userType) {
     loadTopics(userType);
     document.getElementById('topicSection').style.display = 'block';
   }
-
+// Auto-select appropriate topic when user changes profile
+    setTimeout(() => {
+      autoSelectTopicForUserType();
+    }, 300);
   console.log('✅ User manually selected profile:', userType);
 }
 
@@ -3977,6 +3996,36 @@ function askQuickQuestion(question) {
   document.getElementById('chatInput').value = question;
   sendChatMessage();
 }
+
+// Smart auto-selection based on user type
+// Smart auto-selection based on user type
+function autoSelectTopicForUserType() {
+  // Use the selectedUser variable instead of trying to read from DOM
+  const userType = selectedUser || 'citizen';
+  
+  console.log('🎯 Auto-selecting topic for user type:', userType);
+  
+  // Define best default topic for each user type
+  const defaultTopics = {
+    'citizen': 'rights',        // Citizens want to know their rights
+    'police': 'fir',            // Police deal with FIR procedures
+    'student': 'trial',         // Students study trial processes
+    'legal': 'bail'             // Lawyers frequently handle bail matters
+  };
+  
+  // Get the appropriate topic for current user type
+  const defaultTopic = defaultTopics[userType] || 'rights';
+  
+  console.log('📌 Selected default topic:', defaultTopic);
+  
+  // Select the topic after a brief delay
+  setTimeout(() => {
+    selectTopic(defaultTopic);
+  }, 200);
+}
+
+// Make it globally accessible
+window.autoSelectTopicForUserType = autoSelectTopicForUserType;  
 </script>
 
 
