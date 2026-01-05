@@ -1418,32 +1418,40 @@ class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-2
     }
 
 document.addEventListener('DOMContentLoaded', function () {
-
   // Show default hint
   const hintEl = document.getElementById('profileHint');
   if (hintEl) {
     hintEl.textContent = 'Default profile: General Citizen (you can change it)';
   }
-
   // Set default selected user silently
   selectedUser = 'citizen';
-
   // Highlight default card visually
   const defaultCard = document.getElementById('userCitizenMain');
   if (defaultCard) {
     defaultCard.classList.add('selected');
   }
-
-console.log('✅ Default profile initialized silently: General Citizen');
+  console.log('✅ Default profile initialized silently: General Citizen');
   
-  // Initialize query type to custom (collapsed state)
   setTimeout(() => {
     selectQueryType('ready');
+    
+    // Auto-select appropriate topic based on user type
+    autoSelectTopicForUserType();
   }, 100);
-
-  setTimeout(() => {
-  selectTopic('rights');  // Select "Rights & Duties" as default
-}, 300);
+  
+  // ===== NEW: Watch for user type changes =====
+  const userTypeSelect = document.getElementById('userType');
+  if (userTypeSelect) {
+    userTypeSelect.addEventListener('change', function() {
+      console.log('👤 User type changed to:', userTypeSelect.value);
+      // Only auto-select if in ready-made mode
+      if (document.getElementById('readyMadeDiv') && 
+          document.getElementById('readyMadeDiv').style.display !== 'none') {
+        autoSelectTopicForUserType();
+      }
+    });
+  }
+  
 });
     
     const WEBHOOK_URL = 'https://n8n-workflow-test.duckdns.org/webhook/chatbot';
@@ -3981,6 +3989,30 @@ function askQuickQuestion(question) {
   document.getElementById('chatInput').value = question;
   sendChatMessage();
 }
+
+// Smart auto-selection based on user type
+function autoSelectTopicForUserType() {
+  const userType = document.getElementById('userType').value;
+  
+  // Define best default topic for each user type
+  const defaultTopics = {
+    'citizen': 'rights',        // Citizens want to know their rights
+    'police': 'fir',            // Police deal with FIR procedures
+    'student': 'trial',         // Students study trial processes
+    'legal': 'bail'             // Lawyers frequently handle bail matters
+  };
+  
+  // Get the appropriate topic for current user type
+  const defaultTopic = defaultTopics[userType] || 'rights';
+  
+  // Select the topic after a brief delay to ensure DOM is ready
+  setTimeout(() => {
+    selectTopic(defaultTopic);
+  }, 200);
+}
+
+// Make it globally accessible
+window.autoSelectTopicForUserType = autoSelectTopicForUserType;  
 </script>
 
 
