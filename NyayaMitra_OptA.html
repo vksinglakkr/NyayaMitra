@@ -2770,7 +2770,10 @@ function selectMainUser(userType) {
     loadTopics(userType);
     document.getElementById('topicSection').style.display = 'block';
   }
-
+// Auto-select appropriate topic when user changes profile
+    setTimeout(() => {
+      autoSelectTopicForUserType();
+    }, 300);
   console.log('✅ User manually selected profile:', userType);
 }
 
