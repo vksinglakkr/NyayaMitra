@@ -1440,6 +1440,10 @@ console.log('✅ Default profile initialized silently: General Citizen');
   setTimeout(() => {
     selectQueryType('ready');
   }, 100);
+
+  setTimeout(() => {
+  selectTopic('rights');  // Select "Rights & Duties" as default
+}, 300);
 });
     
     const WEBHOOK_URL = 'https://n8n-workflow-test.duckdns.org/webhook/chatbot';
