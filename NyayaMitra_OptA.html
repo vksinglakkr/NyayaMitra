@@ -796,7 +796,10 @@ body.simple-mode .glass-card {
     box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.15);
   }
 }
-
+/* Hide helpful content when chat messages appear */
+.chat-active #helpfulContent {
+  display: none;
+}
 
   </style>
 </head>
@@ -1619,7 +1622,7 @@ console.log('✅ Default profile initialized silently: General Citizen');
       currentAI = provider;
       currentAnswerLevel = answerLevel;
       aiUsed[provider] = true;
-      
+      document.body.classList.add('chat-active');
       const loadingMessages = {
         groq: '⚡ Groq is processing at lightning speed...',
         chatgpt: '🤖 ChatGPT is analyzing deeply...'
@@ -4088,6 +4091,17 @@ function askQuickQuestion(question) {
   document.getElementById('chatInput').value = question;
   sendChatMessage();
 }
+// Function to fill question from popular questions
+function fillQuestion(question) {
+  const inputField = document.getElementById('userInput');
+  if (inputField) {
+    inputField.value = question;
+    inputField.focus();
+    // Scroll to input area
+    inputField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+  
 </script>
 
 
