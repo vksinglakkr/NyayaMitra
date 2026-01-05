@@ -3292,7 +3292,8 @@ function toggleMode() {
     document.body.classList.add('simple-mode');
     
     // Auto-select custom query type in simple mode
-    selectQueryType('custom');
+   selectQueryType('ready');
+autoSelectTopicForUserType();
     
     console.log('✨ Switched to SIMPLE MODE');
   }
