@@ -796,10 +796,7 @@ body.simple-mode .glass-card {
     box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.15);
   }
 }
-/* Hide helpful content when chat messages appear */
-.chat-active #helpfulContent {
-  display: none;
-}
+
 
   </style>
 </head>
@@ -1011,117 +1008,6 @@ body.simple-mode .glass-card {
 </div>
       </div>
     </div>
-
-<!-- MIDDLE CONTENT AREA (Fills empty space on desktop) -->
-<div id="helpfulContent" class="mb-6 fade-in">
-  
-  <!-- Welcome Guide -->
-  <div class="mb-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-4 border-2 border-blue-200">
-    <h3 class="text-base md:text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
-      <span class="text-2xl">💡</span>
-      <span>How to Use NyayaMitra</span>
-    </h3>
-    <ul class="text-sm text-gray-700 space-y-2">
-      <li class="flex items-start gap-2">
-        <span class="text-orange-500 font-bold">✓</span>
-        <span>Ask your legal question in simple, everyday language</span>
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="text-orange-500 font-bold">✓</span>
-        <span>Use voice input (🎤) for hands-free convenience</span>
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="text-orange-500 font-bold">✓</span>
-        <span>Select your profile for tailored answers</span>
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="text-orange-500 font-bold">✓</span>
-        <span>Available in English, हिंदी, and ਪੰਜਾਬੀ</span>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Popular Questions -->
-  <div class="mb-6">
-    <h3 class="text-base md:text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
-      <span class="text-2xl">📚</span>
-      <span>Popular Questions</span>
-    </h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <button onclick="fillQuestion('What are my rights during arrest?')" 
-              class="text-left p-3 bg-white border-2 border-gray-200 rounded-xl hover:border-orange-400 hover:bg-orange-50 transition-all shadow-sm hover:shadow-md">
-        <div class="flex items-start gap-3">
-          <span class="text-2xl">⚖️</span>
-          <div>
-            <p class="font-semibold text-gray-800 text-sm">Rights During Arrest</p>
-            <p class="text-xs text-gray-600">Know your constitutional rights</p>
-          </div>
-        </div>
-      </button>
-      
-      <button onclick="fillQuestion('How to file FIR online?')" 
-              class="text-left p-3 bg-white border-2 border-gray-200 rounded-xl hover:border-orange-400 hover:bg-orange-50 transition-all shadow-sm hover:shadow-md">
-        <div class="flex items-start gap-3">
-          <span class="text-2xl">📝</span>
-          <div>
-            <p class="font-semibold text-gray-800 text-sm">File FIR Online</p>
-            <p class="text-xs text-gray-600">Step-by-step procedure</p>
-          </div>
-        </div>
-      </button>
-      
-      <button onclick="fillQuestion('What is the bail procedure?')" 
-              class="text-left p-3 bg-white border-2 border-gray-200 rounded-xl hover:border-orange-400 hover:bg-orange-50 transition-all shadow-sm hover:shadow-md">
-        <div class="flex items-start gap-3">
-          <span class="text-2xl">🛡️</span>
-          <div>
-            <p class="font-semibold text-gray-800 text-sm">Bail Procedure</p>
-            <p class="text-xs text-gray-600">Understanding bail rights</p>
-          </div>
-        </div>
-      </button>
-      
-      <button onclick="fillQuestion('What are the new criminal laws?')" 
-              class="text-left p-3 bg-white border-2 border-gray-200 rounded-xl hover:border-orange-400 hover:bg-orange-50 transition-all shadow-sm hover:shadow-md">
-        <div class="flex items-start gap-3">
-          <span class="text-2xl">📖</span>
-          <div>
-            <p class="font-semibold text-gray-800 text-sm">New Criminal Laws</p>
-            <p class="text-xs text-gray-600">BNS, BNSS, BSA explained</p>
-          </div>
-        </div>
-      </button>
-    </div>
-  </div>
-
-  <!-- Quick Resources -->
-  <div class="mb-6">
-    <h3 class="text-base md:text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
-      <span class="text-2xl">🔗</span>
-      <span>Official Resources</span>
-    </h3>
-    <div class="flex flex-wrap gap-2">
-      <a href="https://www.indiacode.nic.in" target="_blank" 
-         class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-100 to-amber-100 text-orange-700 rounded-full text-sm font-medium hover:from-orange-200 hover:to-amber-200 transition-all shadow-sm">
-        <span>📖</span>
-        <span>India Code</span>
-      </a>
-      <a href="https://districts.ecourts.gov.in" target="_blank"
-         class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-100 to-amber-100 text-orange-700 rounded-full text-sm font-medium hover:from-orange-200 hover:to-amber-200 transition-all shadow-sm">
-        <span>⚖️</span>
-        <span>eCourts</span>
-      </a>
-      <a href="https://doj.gov.in" target="_blank"
-         class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-100 to-amber-100 text-orange-700 rounded-full text-sm font-medium hover:from-orange-200 hover:to-amber-200 transition-all shadow-sm">
-        <span>🏛️</span>
-        <span>Justice Dept</span>
-      </a>
-    </div>
-  </div>
-
-</div>
-<!-- END MIDDLE CONTENT -->
-
 <div id="customQuestionDiv" class="mb-8 fade-in">
   <!-- Input Row: Input + Mic + Send Button -->
   <div class="flex gap-0.5 md:gap-2 mb-2">
@@ -1622,7 +1508,7 @@ console.log('✅ Default profile initialized silently: General Citizen');
       currentAI = provider;
       currentAnswerLevel = answerLevel;
       aiUsed[provider] = true;
-      document.body.classList.add('chat-active');
+      
       const loadingMessages = {
         groq: '⚡ Groq is processing at lightning speed...',
         chatgpt: '🤖 ChatGPT is analyzing deeply...'
@@ -4091,17 +3977,6 @@ function askQuickQuestion(question) {
   document.getElementById('chatInput').value = question;
   sendChatMessage();
 }
-// Function to fill question from popular questions
-function fillQuestion(question) {
-  const inputField = document.getElementById('userInput');
-  if (inputField) {
-    inputField.value = question;
-    inputField.focus();
-    // Scroll to input area
-    inputField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-}
-  
 </script>
 
 
