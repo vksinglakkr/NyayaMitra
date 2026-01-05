@@ -2901,7 +2901,10 @@ document.getElementById('voiceBtn').addEventListener('click', function (e) {
   }
 
   // ✅ SET LANGUAGE JUST BEFORE START
-  const lang = document.getElementById('languageSelect')?.value || 'english';
+  // Get language from whichever selector is visible
+const langCustom = document.getElementById('languageSelect')?.value;
+const langReady = document.getElementById('languageSelectReady')?.value;
+const lang = langCustom || langReady || 'english';
 
   if (lang === 'hindi') recognition.lang = 'hi-IN';
   else if (lang === 'punjabi') recognition.lang = 'pa-IN';
@@ -3235,7 +3238,10 @@ function enableResponseActions() {
     currentUtterance = new SpeechSynthesisUtterance(text);
 
     // Language sync
-    const lang = document.getElementById('languageSelect')?.value || 'english';
+  // Get language from whichever selector is visible
+const langCustom = document.getElementById('languageSelect')?.value;
+const langReady = document.getElementById('languageSelectReady')?.value;
+const lang = langCustom || langReady || 'english';
     if (lang === 'hindi') currentUtterance.lang = 'hi-IN';
     else if (lang === 'punjabi') currentUtterance.lang = 'pa-IN';
     else currentUtterance.lang = 'en-IN';
@@ -3635,7 +3641,10 @@ function listenToBotMessage(button) {
   currentSpeech = new SpeechSynthesisUtterance(messageText);
   
   // Set language based on selection
-  const lang = document.getElementById('languageSelect')?.value || 'english';
+// Get language from whichever selector is visible
+const langCustom = document.getElementById('languageSelect')?.value;
+const langReady = document.getElementById('languageSelectReady')?.value;
+const lang = langCustom || langReady || 'english';
   if (lang === 'hindi') currentSpeech.lang = 'hi-IN';
   else if (lang === 'punjabi') currentSpeech.lang = 'pa-IN';
   else currentSpeech.lang = 'en-IN';
@@ -3831,7 +3840,10 @@ function startChatRecording() {
   chatRecognition = new SpeechRecognition();
   
   // Get language from selector
-  const lang = document.getElementById('languageSelect')?.value || 'english';
+// Get language from whichever selector is visible
+const langCustom = document.getElementById('languageSelect')?.value;
+const langReady = document.getElementById('languageSelectReady')?.value;
+const lang = langCustom || langReady || 'english';
   if (lang === 'hindi') {
     chatRecognition.lang = 'hi-IN';
   } else if (lang === 'punjabi') {
@@ -4035,6 +4047,24 @@ function autoSelectTopicForUserType() {
 
 // Make it globally accessible
 window.autoSelectTopicForUserType = autoSelectTopicForUserType;  
+
+// Sync language selectors
+document.addEventListener('DOMContentLoaded', function() {
+  const langCustom = document.getElementById('languageSelect');
+  const langReady = document.getElementById('languageSelectReady');
+  
+  if (langCustom && langReady) {
+    // When custom changes, update ready
+    langCustom.addEventListener('change', function() {
+      langReady.value = langCustom.value;
+    });
+    
+    // When ready changes, update custom
+    langReady.addEventListener('change', function() {
+      langCustom.value = langReady.value;
+    });
+  }
+});
 </script>
 
 
