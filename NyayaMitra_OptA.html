@@ -1439,18 +1439,22 @@ document.addEventListener('DOMContentLoaded', function () {
     autoSelectTopicForUserType();
   }, 100);
   
-  // ===== NEW: Watch for user type changes =====
-  const userTypeSelect = document.getElementById('userType');
-  if (userTypeSelect) {
-    userTypeSelect.addEventListener('change', function() {
-      console.log('👤 User type changed to:', userTypeSelect.value);
-      // Only auto-select if in ready-made mode
-      if (document.getElementById('readyMadeDiv') && 
-          document.getElementById('readyMadeDiv').style.display !== 'none') {
-        autoSelectTopicForUserType();
-      }
+  // ===== Watch for profile card clicks =====
+  const profileCards = document.querySelectorAll('[id^="user"][id$="Main"]');
+  profileCards.forEach(card => {
+    card.addEventListener('click', function() {
+      console.log('👤 Profile card clicked');
+      // Wait for selectedUser to update
+      setTimeout(() => {
+        console.log('👤 Current selectedUser:', selectedUser);
+        // Only auto-select if in ready-made mode
+        const readyMadeDiv = document.getElementById('readyMadeDiv');
+        if (readyMadeDiv && readyMadeDiv.style.display !== 'none') {
+          autoSelectTopicForUserType();
+        }
+      }, 100);
     });
-  }
+  });
   
 });
     
@@ -3991,8 +3995,12 @@ function askQuickQuestion(question) {
 }
 
 // Smart auto-selection based on user type
+// Smart auto-selection based on user type
 function autoSelectTopicForUserType() {
-  const userType = document.getElementById('userType').value;
+  // Use the selectedUser variable instead of trying to read from DOM
+  const userType = selectedUser || 'citizen';
+  
+  console.log('🎯 Auto-selecting topic for user type:', userType);
   
   // Define best default topic for each user type
   const defaultTopics = {
@@ -4005,7 +4013,9 @@ function autoSelectTopicForUserType() {
   // Get the appropriate topic for current user type
   const defaultTopic = defaultTopics[userType] || 'rights';
   
-  // Select the topic after a brief delay to ensure DOM is ready
+  console.log('📌 Selected default topic:', defaultTopic);
+  
+  // Select the topic after a brief delay
   setTimeout(() => {
     selectTopic(defaultTopic);
   }, 200);
