@@ -980,8 +980,19 @@ body.simple-mode .glass-card {
   <option value="" selected disabled>Tap to select a question...</option>
 </select>
           </div>
-                  <!-- Submit button for ready-made questions -->
-          <div class="flex justify-end mt-4">
+          
+          <!-- Language + Submit button for ready-made questions -->
+          <div class="flex items-center justify-between gap-3 mt-4">
+            <div class="flex items-center gap-2 text-sm text-gray-600">
+              <span>Language:</span>
+              <select id="languageSelectReady"
+                      class="px-2 py-1 border border-gray-300 rounded-md text-sm bg-white focus:border-orange-400 focus:ring-1 focus:ring-orange-200">
+                <option value="english">English</option>
+                <option value="hindi">हिंदी</option>
+                <option value="punjabi">ਪੰਜਾਬੀ</option>
+              </select>
+            </div>
+            
             <button id="submitBtn"
                     class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600
                            text-white font-bold py-3 rounded-xl shadow-lg
@@ -990,7 +1001,8 @@ body.simple-mode .glass-card {
               ⚡ Get Answer
             </button>
           </div>
-        </div>
+          
+        </div> 
 
       </div>
     </div>
